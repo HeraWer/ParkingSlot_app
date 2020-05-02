@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from "@angular/forms";
-import { Platform, AlertController } from '@ionic/angular';
+import { NavController, Platform, AlertController } from '@ionic/angular';
 import { ModelService } from '../services/model.service';
 import { NgForm } from '@angular/forms';
 
@@ -13,7 +13,7 @@ import { NgForm } from '@angular/forms';
 export class LoginPage {
 
   constructor(private formBuilder: FormBuilder, 
-    private alertCtrl: AlertController, private modelService: ModelService) { }
+    private alertCtrl: AlertController, private modelService: ModelService, private navController: NavController) { }
 
     email: string = '';
     password: string = '';
@@ -38,6 +38,10 @@ export class LoginPage {
     error => {
       console.log(error);
     });
+  }
+
+  registerModal() {
+    this.navController.navigateRoot('/register');
   }
 }
 

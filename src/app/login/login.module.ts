@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LoginPage } from './login.page';
-import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ModelService } from '../services/model.service';
 
@@ -13,7 +12,6 @@ import { ModelService } from '../services/model.service';
     IonicModule,
     CommonModule,
     FormsModule,
-    ExploreContainerComponentModule,
     RouterModule.forChild([{ path: '', component: LoginPage }]),
     HttpClientModule,
   ],

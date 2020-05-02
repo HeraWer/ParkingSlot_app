@@ -1,0 +1,25 @@
+ion-header {
+    margin-top: 10%;
+}
+
+ion-label {
+    color: black !important;
+}
+img {
+    width: 50%;
+    display: block;
+    margin: auto;
+    margin-bottom: 10%;
+}
+
+ion-item {
+    src: url(../../assets/fonts/PermanentMarker-Regular.ttf);
+    font-family: PermanentMarker-Regular;
+    font-weight: bold;
+  }
+.buttonRegister {
+    padding-left: 10%;
+    padding-right: 10%;
+    margin-top: 10%;
+    font-weight: bold;
+}

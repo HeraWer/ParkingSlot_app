@@ -1,14 +1,52 @@
 ion-header {
-  background-color: white;
+  margin-top: 10%;
 }
 
+img {
+  width: 50%;
+  display: block;
+  margin: auto;
+  margin-bottom: 10%;
+}
+
+ion-title {
+  color: black;
+  text-align: center;
+  padding-bottom: 25%;
+  font-size: 40px;
+  
+  
+  font-weight: bold;
+}
+
+ion-label {
+  color: black !important;
+}
+
+p {
+  color: black;
+  font-weight: bold;
+}
+
+ion-item {
+  src: url(../../assets/fonts/PermanentMarker-Regular.ttf);
+  font-family: PermanentMarker-Regular;
+  font-weight: bold;
+}
+
+ion-input {
+  color: black;
+}
 
 .buttonLogin {
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 10%;
+  padding-right: 10%;
+  font-weight: bold;
 }
 
 .buttonRegister{
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 10%;
+  padding-right: 10%;
+  margin-top: 10%;
+  font-weight: bold;
 }
