@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from "@angular/forms";
-import { NavController, Platform, AlertController } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { ModelService } from '../services/model.service';
 import { NgForm } from '@angular/forms';
+import { ToastPage } from '../toast/toast.page';
 
 @Component({
   selector: 'app-login',
@@ -12,28 +13,30 @@ import { NgForm } from '@angular/forms';
 })
 export class LoginPage {
 
-  constructor(private formBuilder: FormBuilder, 
-    private alertCtrl: AlertController, private modelService: ModelService, private navController: NavController) { }
+  email: String;
+  token: String;
 
-    email: string = '';
-    password: string = '';
-  /*showAlert() {
-    this.http.get(this.url).toPromise().then((data:any) => {
-      console.log(data);
-      //console.log(data.json.test);
-      this.json = JSON.stringify(data.json);
-    });
-    const alert = this.alertCtrl.create({
-    message: 'Usuario: ' + this.m_input_login + ' \n Contraseña: ' + this.m_input_password,
-    subHeader: 'Datos Login:',
-    buttons: ['OK']}).then(alert=> alert.present());
+  constructor(
+    private formBuilder: FormBuilder,
+    private modelService: ModelService, 
+    private navController: NavController, 
+    private toast: ToastPage) { }
 
+    ngOnInit() {
+      
+    }
 
-  }*/
-
-  callModelService(form: NgForm){
+  loginModelService(form: NgForm){
     this.modelService.login(form.value.email, form.value.password).subscribe(data => {
-      console.log(data);
+      if(!data.token){
+        this.toast.presentToast(data.mensaje);
+      }else {
+        this.email = data.email;
+        this.token = data.token;
+        console.log(this.email);
+        console.log(this.token);
+        this.navController.navigateRoot('/maps')
+      }
     },
     error => {
       console.log(error);
