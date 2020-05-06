@@ -3,10 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: true
 };
 
-export const API_URL = 'http://localhost:3000/';
+export const API_URL = 'https://parkingslots.herokuapp.com/';
 
 /*
  * For easier debugging in development mode, you can import the following file
