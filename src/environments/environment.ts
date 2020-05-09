@@ -6,7 +6,7 @@ export const environment = {
   production: true
 };
 
-export const API_URL = 'https://parkingslots.herokuapp.com/';
+export const API_URL = 'http://localhost:3000/'//https://parkingslots.herokuapp.com/';
 
 /*
  * For easier debugging in development mode, you can import the following file

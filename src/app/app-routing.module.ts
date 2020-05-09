@@ -20,6 +20,14 @@ const routes: Routes = [
   },  {
     path: 'toast',
     loadChildren: () => import('./toast/toast.module').then( m => m.ToastPageModule)
+  },
+  {
+    path: 'settings',
+    loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   }
 
 

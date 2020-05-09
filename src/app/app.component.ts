@@ -28,14 +28,27 @@ export class AppComponent {
       this.splashScreen.hide();
       this.modelService.getToken();
       if(this.modelService.isLoggedIn == true){
-        this.navController.navigateRoot('/maps');
+        this.navController.navigateRoot('/profile');
       }else {
         this.navController.navigateRoot('/login');
       }
     });
   }
+
+  // Navegamos al perfil desde el menu lateral, cerramos menu lateral
+  profile() {
+    this.navController.navigateRoot('/profile');
+    this.menu.close('first');
+  }
+
+  // Navegamos a opciones desde el menu lateral, cerramos menu lateral
+  settings() {
+    this.navController.navigateRoot('/settings');
+    this.menu.close('first');
+  }
   
-  logout(){
+  // Hacemos logout de nuestra sesion, borrando el token, cerramos menu lateral
+  logout() {
     localStorage.removeItem('token');
     this.navController.navigateRoot('/login');
     this.menu.close('first');

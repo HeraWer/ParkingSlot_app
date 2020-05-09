@@ -31,8 +31,12 @@ export class RegisterPage implements OnInit {
     if(this.email.includes('@') && this.email.includes('.')) {
       if(form.value.password == form.value.confirmPassword) {
         this.modelService.newUser(form.value.username, form.value.email , form.value.password).subscribe(data => {
-          this.toast.presentToast(data.mensaje);
-          this.navCotroller.navigateRoot('/login');
+          if(data.mensaje == 'Usuario creado correctamente'){
+            this.toast.presentToast(data.mensaje);
+            this.navCotroller.navigateRoot('/login');
+          }else {
+            this.toast.presentToast('El nombre de usuario o el correo electronico ya existe');
+          }
         }, error => {
           console.log(error);
         });
@@ -40,7 +44,7 @@ export class RegisterPage implements OnInit {
         this.toast.presentToast("La contraseñas no cuenciden.");
       }
     }else {
-      this.toast.presentToast("El correcto electronico no es correcto.")
+      this.toast.presentToast("El correo electronico no es correcto.")
     }
   }
 }

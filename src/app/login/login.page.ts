@@ -13,7 +13,7 @@ import { ToastPage } from '../toast/toast.page';
 })
 export class LoginPage {
 
-  email: String;
+  email: string;
   token: String;
 
   constructor(
@@ -33,7 +33,6 @@ export class LoginPage {
       }else {
         this.email = data.email;
         this.token = data.token;
-        console.log(this.email);
         console.log(this.token);
         this.navController.navigateRoot('/maps')
       }

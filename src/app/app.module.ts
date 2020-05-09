@@ -14,6 +14,7 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { ToastPage } from './toast/toast.page';
+import { ModelService } from './services/model.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,7 +28,8 @@ import { ToastPage } from './toast/toast.page';
     Geolocation,
     NativeStorage,
     NativeGeocoder,
-    ToastPage
+    ToastPage,
+    ModelService
   ],
   bootstrap: [AppComponent]
 })

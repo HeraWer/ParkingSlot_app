@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import { MenuController } from '@ionic/angular';
+import { ModelService} from '../services/model.service'
 
 declare var google;
 
@@ -21,7 +22,8 @@ export class MapsPage {
   constructor(
     private geolocation: Geolocation,
     private nativeGeocoder: NativeGeocoder,
-    private menu: MenuController) {
+    private menu: MenuController,
+    private modelService: ModelService) {
   }
  
  

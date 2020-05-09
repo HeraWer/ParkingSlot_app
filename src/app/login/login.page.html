@@ -1,13 +1,14 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="bluishgreen">
     <!--ion-button color="light" (click)="dismissLogin()">Close</ion-button-->
-    <img src="../../assets/login.svg" alt="">
+    <ion-title>Iniciar sesión</ion-title>
   </ion-toolbar>
+  <img src="../../assets/login.svg" alt="">
 </ion-header>
 <ion-content padding>
   <form #form="ngForm" (ngSubmit)="loginModelService(form)" method="post">
     <ion-item>
-      <ion-label position="floating">Correo electronico</ion-label>
+      <ion-label position="floating">Correo electrónico</ion-label>
       <ion-input ngModel type="email" name="email"></ion-input>
     </ion-item>
   
@@ -16,9 +17,9 @@
       <ion-input ngModel type="password" name="password"></ion-input>
     </ion-item>
   
-    <p style="text-align: right;">Forgot Password?</p>
+    <p style="text-align: right;">Recordar contraseña?</p>
   
-    <ion-button class="buttonLogin" type="submit" expand="block" color="primary">Iniciar sesion</ion-button>
+    <ion-button class="buttonLogin" type="submit" expand="block" color="primary">Iniciar sesión</ion-button>
   </form>
-  <ion-button class="buttonRegister "expand="block" color="danger" (click)="registerModal()">Registro</ion-button>
+  <ion-button class="buttonRegister "expand="block" color="danger" (click)="registerModal()">Registrarse</ion-button>
 </ion-content>
