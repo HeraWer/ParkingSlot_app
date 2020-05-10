@@ -27,21 +27,25 @@ export class ModelService {
 
   getUser() {
     console.log(localStorage.getItem("email"));
-    return this.http.get(API_URL + "user/getUser", {
-      params: {
-        email: localStorage.getItem("email"),
-        token: localStorage.getItem("token"),
-      },
-    }).pipe(map((data: any) => {
-      return data;
-    }));
+    return this.http
+      .get(API_URL + "user/getUser", {
+        params: {
+          email: localStorage.getItem("email"),
+          token: localStorage.getItem("token"),
+        },
+      })
+      .pipe(
+        map((data: any) => {
+          return data;
+        })
+      );
   }
 
   login(email, password): Observable<any> {
     /*return this.http.post('http://localhost:3000/user/login', JSON.stringify({username, password}), {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
     }).pipe(map((response: Response) => {
-     console.log("GILIPOLLAS");
+     
     }));*/
     return this.http
       .post<any>(
@@ -84,6 +88,18 @@ export class ModelService {
           headers: this.getHeaders(false),
         }
       )
+      .pipe(
+        map((data: any) => {
+          return data;
+        })
+      );
+  }
+
+  updateUser(usernameOld, username, email, password) {
+    return this.http
+      .post<any>(API_URL + "user/updateUser", JSON.stringify(this.updateUseMap(usernameOld, username, email, password)), {
+        headers: this.getHeaders(localStorage.getItem("token")),
+      })
       .pipe(
         map((data: any) => {
           return data;
@@ -147,5 +163,22 @@ export class ModelService {
     return {
       email: email,
     };
+  }
+
+  updateUseMap(oldUsername, username, email, password) {
+    if (password == undefined) {
+      return {
+        oldUsername: oldUsername,
+        username: username,
+        email: email,
+      };
+    } else {
+      return {
+        oldUsername: oldUsername,
+        username: username,
+        email: email,
+        password: password
+      };
+    }
   }
 }

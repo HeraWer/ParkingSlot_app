@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar color="bluishgreen">
     <ion-title>Perfil</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button color="dark" icon="/assets/arrows.svg" defaultHref="maps" style="font-weight: bold;"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
   <ion-item>
     <ion-icon src="/assets/editUser.svg"></ion-icon>
@@ -60,5 +63,8 @@
         <ion-select-option value="Big">Grande</ion-select-option>
       </ion-select>
     </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-button type="submit" expand="block" color="dark" (click)="updateUser()">Actualizar perfil</ion-button>
   </ion-row>
 </ion-content>
