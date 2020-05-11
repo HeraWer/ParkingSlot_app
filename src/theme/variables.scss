@@ -236,6 +236,14 @@
   }
 }
 
+.alertIntro {
+  --background: white;
+}
+
+[aria-checked=true].sc-ion-alert-md .alert-radio-label.sc-ion-alert-md, .alert-radio-label.sc-ion-alert-md, .alert-message.sc-ion-alert-md {
+  color: black;;
+}
+
 /** Reference colors **/
 
 .ion-color-bluishgreen {

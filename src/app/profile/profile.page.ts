@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { ModelService } from "../services/model.service";
 import { Observable, empty } from "rxjs";
 import { stringify } from "querystring";
+import { ToastPage } from "../toast/toast.page";
+import { NavController } from "@ionic/angular";
 
 @Component({
   selector: "app-profile",
@@ -17,10 +19,19 @@ export class ProfilePage implements OnInit {
 
   check: boolean;
 
-  constructor(private modelService: ModelService) {}
+  constructor(
+    private modelService: ModelService,
+    private toast: ToastPage,
+    private navController: NavController) {}
 
   ngOnInit() {}
-
+  
+  /*
+  * El ionViewWillEnter es un metodo por defecto de ionic
+  * su cometido es ejecutarse cuando el usuario entra en la pagina de perfil y la pone como activa
+  * entonces ejecutara su contenido.
+  * En este caso es una petecion al model service para traerse el currentUser
+  */
   ionViewWillEnter() {
     this.modelService.getUser().subscribe(
       (data) => {
@@ -34,10 +45,19 @@ export class ProfilePage implements OnInit {
     );
   }
 
+  /*
+  * Este metodo interactua con el ion-toggle para saber cuando canvia su posicion a activado o desactivado
+  */
   checkChange($event) {
     this.check = !this.check;
   }
 
+  /*
+  * Metodo para hacer una actualizacion del usuario, que se activa cuando le damos al boton de actualizar
+  * A diferencia del NgForm este va con el NgModel creo que es mas sencillo ya que tu en el input,
+  * al declarar un NgModel="prueba" solamente tienes que declarar encima del constructor el nombre prueba 
+  * y ya tienes la variable que ponga el usuario en el input.
+  */
   updateUser() {
     if (this.password == undefined) {
       this.modelService
@@ -45,7 +65,8 @@ export class ProfilePage implements OnInit {
         .subscribe((data) => {
           this.username = data.username;
           this.email = data.email;
-          this.check = !this.check;
+          this.toast.presentToast("Usuario modificado correctamente");
+          this.navController.navigateRoot("/maps");
         });
     } else {
       if (this.password == this.confirmPassword) {
@@ -59,8 +80,11 @@ export class ProfilePage implements OnInit {
           .subscribe((data) => {
             this.username = data.username;
             this.email = data.email;
+            this.toast.presentToast("Usuario modificado correctamente");
+            this.navController.navigateRoot("/maps");
           });
       } else {
+        this.toast.presentToast('Las contraseñas no cuencididen')
       }
     }
   }

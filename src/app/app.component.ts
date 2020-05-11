@@ -22,13 +22,20 @@ export class AppComponent {
     this.initializeApp();
   }
 
+  /*
+  * Este metodo se ejecuta al abrir la aplicacion, es un metodo por defecto de ionic
+  * platform ready es para iniciar la app
+  * No se para que es el statusBar
+  * SplashScreen no se como se utiliza aun, se que hay variables por defecto cuando añades un Add platform 
+  * pero no se como cambiarlas ni nada, investigue un poco pero no me funcionaba
+  */
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.modelService.getToken();
       if(this.modelService.isLoggedIn == true){
-        this.navController.navigateRoot('/profile');
+        this.navController.navigateRoot('/maps');
       }else {
         this.navController.navigateRoot('/login');
       }

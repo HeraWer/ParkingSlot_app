@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
-import { MenuController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { ModelService} from '../services/model.service'
+import { ToastPage } from '../toast/toast.page';
 
 declare var google;
 
@@ -22,8 +23,9 @@ export class MapsPage {
   constructor(
     private geolocation: Geolocation,
     private nativeGeocoder: NativeGeocoder,
-    private menu: MenuController,
-    private modelService: ModelService) {
+    private modelService: ModelService,
+    private alertController: AlertController,
+    private toast: ToastPage) {
   }
  
  
@@ -44,16 +46,27 @@ export class MapsPage {
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
  
-      this.getAddressFromCoords(resp.coords.latitude, resp.coords.longitude);
+      //this.getAddressFromCoords(resp.coords.latitude, resp.coords.longitude);
  
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+
+      /*let marker = new google.maps.Marker({
+        map: this.map,
+        animation: google.maps.Animation.DROP,
+        position: this.map.getCenter()
+      });*/
+     
  
-      this.map.addListener('dragend', () => {
- 
-        this.latitude = this.map.center.lat();
-        this.longitude = this.map.center.lng();
- 
-        this.getAddressFromCoords(this.map.center.lat(), this.map.center.lng())
+      this.map.addListener('click', (e) => {
+        
+        this.presentAlertConfirm(e);
+
+        //this.latitude = this.map.center.lat();
+        //this.longitude = this.map.center.lng();
+        //this.placeMarkerAndPanTo(e.latLng, this.map);
+        
+        //this.addMarkerFromClick(this.latitude, this.longitude)
+        //this.getAddressFromCoords(this.map.center.lat(), this.map.center.lng())
       });
  
     }).catch((error) => {
@@ -61,7 +74,79 @@ export class MapsPage {
     });
   }
  
-  getAddressFromCoords(lattitude, longitude) {
+  placeMarkerAndPanTo(latLng, map) {
+    var marker = new google.maps.Marker({
+      position: latLng,
+      animation: google.maps.Animation.DROP,
+      icon: {url : '/assets/parking.svg',
+      scaledSize: { width: 35, height: 35 },
+     },
+      
+      map: map
+    });
+    
+    //map.panTo(latLng);
+    console.log(latLng.lat(), latLng.lng());
+  }
+
+  async presentAlertConfirm(e) {
+    const alert = await this.alertController.create({
+      header: 'Confirmacion',
+      message: '<strong>Selecciona el tamaño del aparcamiento liberado</strong>',
+      cssClass: 'alertIntro',
+      inputs: [
+        {
+          name: 'small',
+          type: 'radio',
+          label: 'Plaza pequeña',
+          value: 'small'
+        },
+        {
+          name: 'medium',
+          type: 'radio',
+          label: 'Plaza mediana',
+          value: 'medium',
+          checked: true
+        },
+        {
+          name: 'big',
+          type: 'radio',
+          label: 'Plaza grande',
+          value: 'big'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {           
+            this.toast.presentToast("Aparcamientro cancelado");
+          }
+        }, {
+          text: 'Aceptar',
+          handler: (data) => {
+            console.log(e.latLng);
+            let date = new Date();
+            this.placeMarkerAndPanTo(e.latLng, this.map);
+            this.saveLocation(e.latLng, data);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  saveLocation(latLng, size) {
+    console.log(latLng.lat());
+    let date = new Date();
+    console.log(date);
+    this.modelService.saveLocation(latLng.lat(), latLng.lng(), size, date).subscribe(data => {
+      console.log(data);
+      this.toast.presentToast("Aparcamiento guardado correctamente");
+    })
+  }
+  /*getAddressFromCoords(lattitude, longitude) {
     console.log("getAddressFromCoords " + lattitude + " " + longitude);
     let options: NativeGeocoderOptions = {
       useLocale: true,
@@ -87,20 +172,6 @@ export class MapsPage {
         this.address = "Address Not Available!";
       });
  
-  }
-
-  openFirst() {
-    this.menu.enable(true, 'first');
-    this.menu.open('first');
-  }
-
-  openEnd() {
-    this.menu.open('end');
-  }
-
-  openCustom() {
-    this.menu.enable(true, 'custom');
-    this.menu.open('custom');
-  }
+  }*/
 }
 

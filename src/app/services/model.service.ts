@@ -18,6 +18,10 @@ import { NativeStorage } from "@ionic-native/native-storage/ngx";
 @Injectable({
   providedIn: "root",
 })
+/*
+  * MODEL SERVICE es la el TS encargado de conectarse con API y de enviar y recibir datos de la API 
+  * y conectar con todas las pages que necesitan peticiones
+  */
 export class ModelService {
   isLoggedIn = false;
   token: any;
@@ -25,6 +29,11 @@ export class ModelService {
 
   constructor(private http: HttpClient, private nativeStorage: NativeStorage) {}
 
+  
+
+  /* 
+  * Metodo que llama al getUser de la API envia por los datos por parametros, los parametros se pasan por URL
+  */
   getUser() {
     console.log(localStorage.getItem("email"));
     return this.http
@@ -41,6 +50,10 @@ export class ModelService {
       );
   }
 
+  /*
+  * Metodo que hace una peticion para hacer el login, el cual se le pasa el correo y la contraseña
+  * DATO: Me gustaria saber como realmente funcionan los headers y cual es su finalidad.
+  */
   login(email, password): Observable<any> {
     /*return this.http.post('http://localhost:3000/user/login', JSON.stringify({username, password}), {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
@@ -95,6 +108,9 @@ export class ModelService {
       );
   }
 
+  /*
+  * Metodo para hacer una peticion para modificar el currentUser
+  */
   updateUser(usernameOld, username, email, password) {
     return this.http
       .post<any>(API_URL + "user/updateUser", JSON.stringify(this.updateUseMap(usernameOld, username, email, password)), {
@@ -107,6 +123,19 @@ export class ModelService {
       );
   }
 
+  saveLocation(latitude, longitude, size, date) {
+    return this.http
+    .post<any>(API_URL + "location/saveLocation", JSON.stringify(this.locationMap(latitude, longitude, size, date)), {
+      headers: this.getHeaders(localStorage.getItem("token")),
+    })
+    .pipe(
+      map((data: any) => {
+        return data;
+      })
+    )
+  }
+
+  // METODOS HEADERS Y TOKENS //
   /*
    * Para ver si el token existe o no existe a si iniciar sesion directamente con el usuario o llevarlo a la pantalla de inicio de sesion
    */
@@ -121,6 +150,10 @@ export class ModelService {
     return localStorage.getItem("token");
   }
 
+  /*
+  * No entiendo realmente su funcionalidad, lo copie de una pagina web porque veo que las peticiones necesitan
+  * tener declarado la variable heders:
+  */
   private getHeaders(login, multipart?) {
     var token = localStorage.getItem("token");
     if (login) {
@@ -179,6 +212,15 @@ export class ModelService {
         email: email,
         password: password
       };
+    }
+  }
+
+  locationMap(latitude, longitude, size, date) {
+    return {
+      latitude: latitude,
+      longitude: longitude,
+      size: size,
+      date: date
     }
   }
 }

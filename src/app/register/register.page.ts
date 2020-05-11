@@ -23,6 +23,9 @@ export class RegisterPage implements OnInit {
   ngOnInit() {
   }
 
+  /*
+  * Metodo de hacer la peticion a la horar de registrar un usuario, uso el NgForm como en el login
+  */
   registerModelService(form: NgForm){
     this.username = form.value.username;
     this.email = form.value.email;

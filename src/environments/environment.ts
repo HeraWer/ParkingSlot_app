@@ -6,6 +6,10 @@ export const environment = {
   production: false
 };
 
+/*
+* Variables de entorno como la API y aqui tenemos la variable de entorno de la API URL
+* a si solo tengo que cambiar esta ruta para que todas mis paginas y peticiones apunten en local o a heroku
+*/
 export const API_URL = 'http://localhost:3000/'//https://parkingslots.herokuapp.com/';
 
 /*

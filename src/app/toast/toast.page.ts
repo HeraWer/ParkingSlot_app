@@ -13,6 +13,10 @@ export class ToastPage implements OnInit {
   ngOnInit() {
   }
 
+  /*
+  * Primero cree un toast en cada pagina, 
+  * hasta que descubri el modo de crear uno genero que puedan usar todas las paginas
+  */
   async presentToast(mensaje) {
     const toast = await this.toastController.create({
       message: mensaje,
