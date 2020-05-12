@@ -88,6 +88,12 @@
    */
 
   body {
+    --ion-background-color: linear-gradient(#ffffff 60%, #a3e4d7);
+
+    ion-content {
+      --ion-background-color: linear-gradient(#ffffff 60%, #a3e4d7);
+    }
+
     --ion-color-primary: #428cff;
     --ion-color-primary-rgb: 66, 140, 255;
     --ion-color-primary-contrast: #ffffff;
@@ -195,9 +201,7 @@
    */
 
   .md body {
-    --ion-background-color: linear-gradient(#ffffff 60%, #a3e4d7);
     --ion-background-color-rgb: 18, 18, 18;
-    --ion-background-color: linear-gradient(#ffffff 60%, #a3e4d7);
 
     --ion-text-color: #1e1e1e;
     --ion-text-color-rgb: 255, 255, 255;
@@ -229,10 +233,15 @@
     --ion-toolbar-background: #ffffff;
 
     --ion-tab-bar-background: #ffffff;
+    --ion-background-color: linear-gradient(#ffffff 60%, #a3e4d7);
   }
 
   ion-title.title-large {
     --color: white;
+  }
+
+  ion-content {
+    --ion-background-color: linear-gradient(#ffffff 60%, #a3e4d7);
   }
 }
 

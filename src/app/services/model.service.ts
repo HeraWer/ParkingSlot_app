@@ -135,6 +135,17 @@ export class ModelService {
     )
   }
 
+  getAllLocations() {
+    return this.http.get<any>(API_URL + 'location/allLocations', {
+      headers: this.getHeaders(localStorage.getItem('token')),
+    })
+    .pipe(
+      map((data: any) => {
+        return data;
+      })
+    )
+  }
+
   // METODOS HEADERS Y TOKENS //
   /*
    * Para ver si el token existe o no existe a si iniciar sesion directamente con el usuario o llevarlo a la pantalla de inicio de sesion
