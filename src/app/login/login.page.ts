@@ -37,8 +37,8 @@ export class LoginPage {
           this.token = data.token;
           console.log(this.token);
           this.presentAlert(
-            "Introduccion",
-            "Te explicaremos en 2 sencillos pasos, el funcionamiento de la aplicación."
+            "¡¡ Información !!",
+            "A continuación, te explicaremos en 2 sencillos pasos el funcionamiento de la aplicación:"
           );
           this.navController.navigateRoot("/maps");
         }
@@ -64,15 +64,15 @@ export class LoginPage {
         {
           text: "Aceptar",
           handler: () => {
-            if (title == "Introduccion") {
+            if (title == "¡¡ Información !!") {
               this.presentAlert(
-                "Paso 1",
-                "En tu mapa podras visualizar cualquier aparcamiento libre con marcas. Haciendo click sabras cuantos minutos hace que se libero la plaza y el tamaño de la plaza"
+                "¡¡ Paso 1 !!",
+                "En el mapa de la aplicación, podrás visualizar  cualquier aparcamiento libre marcado con un icono rojo.  Haciendo clic encima del icono, obtendrás cierta información; cuantos minutos hace que se liberó la plaza, y el tamaño."
               );
-            } else if (title == "Paso 1") {
+            } else if (title == "¡¡ Paso 1 !!") {
               this.presentAlert(
-                "Paso 2",
-                "Tu tambien podras marcar en el mapa aparcamientos libres, simplemente cuando te encuentres en tu vehiculo, abre la App, hacer click en el mapa y seguir los pasos."
+                "¡¡ Paso 2 !!",
+                "Para poder notificar que has dejado libre tu plaza, una vez te encuentres en tu vehículo, abre la App, haz clic en el mapa y sigue los pasos."
               );
             }
           },

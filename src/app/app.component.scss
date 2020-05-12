@@ -10,3 +10,7 @@ ion-icon {
 ion-toolbar {
     color: black;
 }
+
+ion-content {
+    --ion-background-color: linear-gradient(#ffffff 60%, #a3e4d7);
+  }

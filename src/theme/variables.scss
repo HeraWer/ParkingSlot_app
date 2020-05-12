@@ -90,10 +90,6 @@
   body {
     --ion-background-color: linear-gradient(#ffffff 60%, #a3e4d7);
 
-    ion-content {
-      --ion-background-color: linear-gradient(#ffffff 60%, #a3e4d7);
-    }
-
     --ion-color-primary: #428cff;
     --ion-color-primary-rgb: 66, 140, 255;
     --ion-color-primary-contrast: #ffffff;
@@ -201,6 +197,7 @@
    */
 
   .md body {
+    --ion-background-color: linear-gradient(#ffffff 60%, #a3e4d7);
     --ion-background-color-rgb: 18, 18, 18;
 
     --ion-text-color: #1e1e1e;
@@ -233,16 +230,14 @@
     --ion-toolbar-background: #ffffff;
 
     --ion-tab-bar-background: #ffffff;
-    --ion-background-color: linear-gradient(#ffffff 60%, #a3e4d7);
+
   }
 
   ion-title.title-large {
     --color: white;
   }
 
-  ion-content {
-    --ion-background-color: linear-gradient(#ffffff 60%, #a3e4d7);
-  }
+
 }
 
 .alertIntro {
@@ -250,11 +245,26 @@
 }
 
 [aria-checked=true].sc-ion-alert-md .alert-radio-label.sc-ion-alert-md, .alert-radio-label.sc-ion-alert-md, .alert-message.sc-ion-alert-md {
-  color: black;;
+  color: black;
 }
+
+.alert-title.sc-ion-alert-md {
+  color: red;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.alert-button.sc-ion-alert-md {
+  color: red;
+}
+
 
 /** Reference colors **/
 
 .ion-color-bluishgreen {
   --ion-color-base: var(--ion-color-bluishgreen);
+}
+
+ion-content {
+  --ion-background-color: linear-gradient(#ffffff 60%, #a3e4d7);
 }
