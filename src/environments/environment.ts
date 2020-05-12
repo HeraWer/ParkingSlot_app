@@ -3,14 +3,14 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: true
 };
 
 /*
 * Variables de entorno como la API y aqui tenemos la variable de entorno de la API URL
 * a si solo tengo que cambiar esta ruta para que todas mis paginas y peticiones apunten en local o a heroku
 */
-export const API_URL = 'http://localhost:3000/'//https://parkingslots.herokuapp.com/';
+export const API_URL = 'https://parkingslots.herokuapp.com/';
 
 /*
  * For easier debugging in development mode, you can import the following file
