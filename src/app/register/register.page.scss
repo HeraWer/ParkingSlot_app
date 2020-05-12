@@ -10,11 +10,6 @@ img {
     margin-top:  10%;
 }
 
-ion-item {
-    src: url(../../assets/fonts/PermanentMarker-Regular.ttf);
-    font-family: PermanentMarker-Regular;
-    font-weight: bold;
-  }
 .buttonRegister {
     padding-left: 10%;
     padding-right: 10%;
@@ -34,4 +29,12 @@ ion-title {
 
 ion-content {
     --ion-background-color: linear-gradient(#ffffff 60%, #a3e4d7);
+  }
+
+  ion-item {
+    src: url(../../assets/fonts/PermanentMarker-Regular.ttf);
+    font-family: PermanentMarker-Regular;
+    font-weight: bold;
+    --ion-background-color: white;
+
   }

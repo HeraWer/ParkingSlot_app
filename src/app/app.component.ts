@@ -32,6 +32,7 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
+      this.menu.swipeGesture(false);
       //this.splashScreen.hide();
       this.modelService.getToken();
       if(this.modelService.isLoggedIn == true){
