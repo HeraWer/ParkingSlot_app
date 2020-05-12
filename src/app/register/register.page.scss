@@ -31,3 +31,7 @@ ion-title {
     padding-right: 25%;
     font-weight: bold;
 }
+
+ion-content {
+    --ion-background-color: linear-gradient(#ffffff 60%, #a3e4d7);
+  }
