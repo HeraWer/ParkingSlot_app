@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="bluishgreen">
-    <ion-title color="dark">Opciones</ion-title>
+    <ion-title color="dark">Ajustes</ion-title>
     <ion-buttons slot="start">
       <ion-back-button color="dark" icon="/assets/arrows.svg" defaultHref="maps" style="font-weight: bold;"></ion-back-button>
     </ion-buttons>
@@ -49,6 +49,31 @@
     </ion-col>
   </ion-row>
   <ion-row>
-    <ion-button type="submit" expand="block" color="dark" (click)="deleteUser()">Eliminar cuenta</ion-button>
+    <ion-col>
+      <ion-item lines="none">
+        <ion-label>Como funciona la app?</ion-label>
+        <ion-button type="submit" color="light" expand="block" defaultHref="information">
+          Información
+        </ion-button>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-item lines="none">
+        <ion-label>Algo no funciona correctamente?</ion-label>
+        <ion-button type="submit" color="light" expand="block">
+          Ayuda
+        </ion-button>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row style="margin-top: 10px;">
+    <ion-col>
+      <ion-item lines="none">
+        <ion-label>Puedes eliminar tu cuenta</ion-label>
+        <ion-button type="submit" expand="block" color="dark" (click)="deleteUser()">Eliminar</ion-button>
+      </ion-item>
+    </ion-col>
   </ion-row>
 </ion-content>
