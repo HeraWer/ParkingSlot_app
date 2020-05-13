@@ -38,7 +38,7 @@ export class LoginPage {
           console.log(this.token);
           this.presentAlert(
             "¡¡ Información !!",
-            "A continuación, te explicaremos en 2 sencillos pasos el funcionamiento de la aplicación:"
+            "A continuación, te explicamos en 2 sencillos pasos el funcionamiento de la aplicación:"
           );
           this.navController.navigateRoot("/maps");
         }

@@ -35,7 +35,6 @@ export class ModelService {
   * Metodo que llama al getUser de la API envia por los datos por parametros, los parametros se pasan por URL
   */
   getUser() {
-    console.log(localStorage.getItem("email"));
     return this.http
       .get(API_URL + "user/getUser", {
         params: {
