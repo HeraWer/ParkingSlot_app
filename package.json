@@ -32,6 +32,7 @@
     "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-plugin-googlemaps": "^2.7.1",
+    "cordova-plugin-keyboard": "^1.2.0",
     "cordova-plugin-nativegeocoder": "^3.4.1",
     "cordova-plugin-nativestorage": "^2.3.2",
     "core-js": "^2.5.4",

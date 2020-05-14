@@ -1,9 +1,9 @@
 img {
-  width: 50%;
+  width: 40%;
   display: block;
   margin: auto;
-  margin-bottom: 10%;
-  margin-top: 10%;
+  margin-bottom: 5%;
+  margin-top: 5%;
 }
 
 ion-title {
@@ -16,12 +16,6 @@ ion-toolbar {
 }
 
 p {
-  font-weight: bold;
-}
-
-ion-item {
-  src: url(../../assets/fonts/PermanentMarker-Regular.ttf);
-  font-family: PermanentMarker-Regular;
   font-weight: bold;
 }
 
@@ -40,4 +34,11 @@ ion-item {
 
 ion-content {
   --ion-background-color: linear-gradient(#ffffff 60%, #a3e4d7);
+}
+
+ion-item {
+  src: url(../../assets/fonts/PermanentMarker-Regular.ttf);
+  font-family: PermanentMarker-Regular;
+  font-weight: bold;
+  --ion-background-color: white;
 }

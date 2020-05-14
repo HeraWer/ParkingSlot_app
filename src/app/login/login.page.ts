@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { NavController, AlertController } from "@ionic/angular";
 import { ModelService } from "../services/model.service";
@@ -13,6 +13,7 @@ import { ToastPage } from "../toast/toast.page";
 export class LoginPage {
   email: string;
   token: String;
+  public showAndHide: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -20,9 +21,37 @@ export class LoginPage {
     private navController: NavController,
     private toast: ToastPage,
     private alertController: AlertController
-  ) {}
+  ) {
+    /*
+     * Detecta los eventos de cuando se abre el teclado en el dispostivo
+     */
+    window.addEventListener("keyboardWillShow", (e) => {
+      if (this.showAndHide) {
+        this.showAndHide = !this.showAndHide;
+        var elem = document.getElementById("pepe");
+        elem.style.marginBottom = "10vh";
+      }
+    });
+
+    /*window.addEventListener('keyboardDidShow', (e) => {
+      
+    });*/
+
+    window.addEventListener("keyboardWillHide", () => {
+      if (!this.showAndHide) {
+        this.showAndHide = !this.showAndHide;
+        var elem = document.getElementById("pepe");
+        elem.style.marginBottom = "0vh";
+      }
+    });
+
+    /*window.addEventListener('keyboardDidHide', () => {
+      console.log('keyboard did hide');
+    });*/
+  }
 
   ngOnInit() {}
+
   /*
    * Metodo que recoge los datos del NgForm que el form esta declarado en el html,
    * con el nombre de las variables del html podemos saber que a escrito el usuario en el input
