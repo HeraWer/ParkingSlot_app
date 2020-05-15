@@ -129,7 +129,7 @@ export class MapsPage {
       position: latLng,
       animation: google.maps.Animation.DROP,
       icon: {
-        url: "/assets/parking.svg",
+        url: "/assets/parking-red.svg",
         scaledSize: { width: 35, height: 35 },
       },
 
@@ -225,7 +225,7 @@ export class MapsPage {
             position: latLng,
             animation: google.maps.Animation.DROP,
             icon: {
-              url: "/assets/parking.svg",
+              url: "/assets/parking-red.svg",
               scaledSize: { width: 35, height: 35 },
             },
 

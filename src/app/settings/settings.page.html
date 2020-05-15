@@ -11,24 +11,24 @@
   <ion-row>
     <ion-col size="12">
       <ion-item lines="none">
-        <ion-label>Notificaciones</ion-label>
-        <ion-toggle unchecked></ion-toggle>
+        <ion-label>Notificaciones <i>( En desarrollo )</i></ion-label>
+        <ion-toggle unchecked disabled></ion-toggle>
       </ion-item>
     </ion-col>
   </ion-row>
   <ion-row>
     <ion-col size="12">
       <ion-item lines="none">
-        <ion-label>Solo vibracion</ion-label>
-        <ion-toggle unchecked></ion-toggle>
+        <ion-label>Solo vibracion <i>( En desarrollo )</i></ion-label>
+        <ion-toggle unchecked disabled></ion-toggle>
       </ion-item>
     </ion-col>
   </ion-row>
   <ion-row>
     <ion-col>
       <ion-item lines="none">
-        <ion-label >Tipo de sonido</ion-label>
-        <ion-select placeholder="Selecciona" [value]="['tipo1']" >
+        <ion-label >Tipo de sonido <i>( En desarrollo )</i></ion-label>
+        <ion-select placeholder="Selecciona" [value]="['tipo1']" disabled>
           <ion-select-option value="tipo1">Tipo 1</ion-select-option>
           <ion-select-option value="tipo2">Tipo 2</ion-select-option>
           <ion-select-option value="tipo3">Tipo 3</ion-select-option>
@@ -52,7 +52,7 @@
     <ion-col>
       <ion-item lines="none">
         <ion-label>Como funciona la app?</ion-label>
-        <ion-button type="submit" color="light" expand="block" defaultHref="information">
+        <ion-button type="submit" color="light" expand="block" (click)="pageInformation()">
           Información
         </ion-button>
       </ion-item>
@@ -62,7 +62,7 @@
     <ion-col>
       <ion-item lines="none">
         <ion-label>Algo no funciona correctamente?</ion-label>
-        <ion-button type="submit" color="light" expand="block">
+        <ion-button type="submit" color="light" expand="block" (click)="help()">
           Ayuda
         </ion-button>
       </ion-item>

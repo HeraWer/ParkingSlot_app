@@ -25,7 +25,7 @@ import { NativeStorage } from "@ionic-native/native-storage/ngx";
 export class ModelService {
   isLoggedIn = false;
   token: any;
-  email: any = "";
+  username: any = "";
 
   constructor(private http: HttpClient, private nativeStorage: NativeStorage) {}
 
@@ -38,7 +38,7 @@ export class ModelService {
     return this.http
       .get(API_URL + "user/getUser", {
         params: {
-          email: localStorage.getItem("email"),
+          username: localStorage.getItem("username"),
           token: localStorage.getItem("token"),
         },
       })
@@ -53,16 +53,11 @@ export class ModelService {
   * Metodo que hace una peticion para hacer el login, el cual se le pasa el correo y la contraseña
   * DATO: Me gustaria saber como realmente funcionan los headers y cual es su finalidad.
   */
-  login(email, password): Observable<any> {
-    /*return this.http.post('http://localhost:3000/user/login', JSON.stringify({username, password}), {
-      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
-    }).pipe(map((response: Response) => {
-     
-    }));*/
+  login(username, password): Observable<any> {
     return this.http
       .post<any>(
         API_URL + "user/login",
-        JSON.stringify(this.loginMap(email, password)),
+        JSON.stringify(this.loginMap(username, password)),
         {
           headers: this.getHeaders(localStorage.getItem("token")),
         }
@@ -71,21 +66,15 @@ export class ModelService {
         map((data: any) => {
           if (data.token) {
             console.log(data.email);
-            this.email = data.email;
+            this.username = data.username;
             this.token = data.token;
-            localStorage.setItem("email", data.email);
+            localStorage.setItem("username", data.username);
             localStorage.setItem("token", data.token);
             this.nativeStorage.setItem("token", data);
           }
           return data;
         })
       );
-    /*return this.http.post('http://localhost:3000/user/login', JSON.stringify(this.loginMap(username, password))
-    ).pipe(
-      tap(token => {
-        console.log(token);
-      }),
-    );*/
   }
 
   /*
@@ -145,6 +134,17 @@ export class ModelService {
     )
   }
 
+  deleteUser() {
+    return this.http.post<any>(API_URL + "user/deleteUser", JSON.stringify(this.deleteUserMap(localStorage.getItem('username'), false)), {
+      headers: this.getHeaders(localStorage.getItem("token")),
+    })
+    .pipe(
+      map((data: any) => {
+        return data;
+      })
+    )
+  }
+
   // METODOS HEADERS Y TOKENS //
   /*
    * Para ver si el token existe o no existe a si iniciar sesion directamente con el usuario o llevarlo a la pantalla de inicio de sesion
@@ -184,11 +184,11 @@ export class ModelService {
    * Aqui es donde mapeo todas las peticiones que hago a JSON
    */
 
-  loginMap(email, password) {
+  loginMap(username, password) {
     //console.log(email + " " + password);
 
     return {
-      email: email,
+      username: username,
       password: password,
     };
   }
@@ -202,9 +202,9 @@ export class ModelService {
     };
   }
 
-  getUserMap(email) {
+  getUserMap(username) {
     return {
-      email: email,
+      username: username,
     };
   }
 
@@ -231,6 +231,13 @@ export class ModelService {
       longitude: longitude,
       size: size,
       date: date
+    }
+  }
+
+  deleteUserMap(username, is_deleted) {
+    return {
+      username: username,
+      is_deleted: is_deleted
     }
   }
 }
