@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar color="bluishgreen">
+    <ion-title color="dark">Ayuda</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button color="dark"  icon="/assets/arrows.svg" defaultHref="settings" style="font-weight: bold;"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="none">
+    <img id="img1" src="assets/symbol.svg" alt="" *ngIf="showAndHide"/>
+    <img id="img2" src="assets/multimedia.svg" style="width: 15%;" alt="" *ngIf="showAndHide"/>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Correo electronico</ion-label>
+    <ion-input type="email" [(ngModel)]="email"></ion-input>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label id="label" position="floating">Texto del problema</ion-label>
+    <ion-textarea rows="14" type="email" [(ngModel)]="container"></ion-textarea>
+  </ion-item>
+  <ion-button expand="full" color="danger" (click)="sendEmail()">Enviar</ion-button>
+</ion-content>

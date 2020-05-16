@@ -35,6 +35,7 @@ export class ProfilePage implements OnInit {
   ionViewWillEnter() {
     this.modelService.getUser().subscribe(
       (data) => {
+        console.log(data);
         this.email = data.email;
         this.username = data.username;
         this.oldUsername = data.username;
@@ -63,6 +64,7 @@ export class ProfilePage implements OnInit {
       this.modelService
         .updateUser(this.oldUsername, this.username, this.email, undefined)
         .subscribe((data) => {
+          localStorage.setItem('username', this.username);
           this.username = data.username;
           this.email = data.email;
           this.toast.presentToast("Usuario modificado correctamente");

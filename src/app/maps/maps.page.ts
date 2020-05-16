@@ -20,7 +20,7 @@ declare var google;
 export class MapsPage {
   @ViewChild("map", { static: false }) mapElement: ElementRef;
   map: any;
-  locations: any;
+  markerDeleted: boolean;
 
   latitude: number;
   longitude: number;
@@ -35,7 +35,10 @@ export class MapsPage {
 
   ngOnInit() {
     this.loadMap();
-    
+  }
+
+  reloadPage() {
+    this.getAllLocations();
   }
 
   loadMap() {
@@ -55,6 +58,8 @@ export class MapsPage {
           mapTypeId: google.maps.MapTypeId.ROADMAP,
         };
 
+
+
         //this.getAddressFromCoords(resp.coords.latitude, resp.coords.longitude);
 
         this.map = new google.maps.Map(
@@ -62,11 +67,15 @@ export class MapsPage {
           mapOptions
         );
 
-        /*let marker = new google.maps.Marker({
+        let marker = new google.maps.Marker({
         map: this.map,
         animation: google.maps.Animation.DROP,
-        position: this.map.getCenter()
-      });*/
+        position: this.map.getCenter(),
+        icon: {
+          url: "/assets/people.svg",
+          scaledSize: { width: 25, height: 25 },
+        },
+      });
       this.getAllLocations();
       /*var locations = [
         [new google.maps.LatLng(0, 0), 'Marker 1', 'Infowindow content for Marker 1'],
@@ -100,17 +109,14 @@ export class MapsPage {
 
         this.map.addListener("click", (e) => {
 
-          /*this.markerArray.forEach(element => {
-            let latLng = new google.maps.LatLng(
-              element.latitude,
-              element.longitude
-            );
-            var distance = google.maps.geometry.spherical.computeDistanceBetween(e.latLng, latLng);
-            console.log(distance);
-          });*/
+          var distance = google.maps.geometry.spherical.computeDistanceBetween(e.latLng, latLng);
+          distance = Math.round(distance);
           
-          this.presentAlertConfirm(e);
-
+          if(distance <= 300) {
+            this.presentAlertConfirm(e);
+          }else {
+            this.toast.presentToast("Estas demasiado lejos de tu vehiculo para marcar un aparcamiento libre");
+          }
           //this.latitude = this.map.center.lat();
           //this.longitude = this.map.center.lng();
           //this.placeMarkerAndPanTo(e.latLng, this.map);
@@ -129,15 +135,13 @@ export class MapsPage {
       position: latLng,
       animation: google.maps.Animation.DROP,
       icon: {
-        url: "/assets/parking.svg",
+        url: "/assets/parking-red.svg",
         scaledSize: { width: 35, height: 35 },
       },
-
       map: map,
     });
-
     //map.panTo(latLng);
-    console.log(latLng.lat(), latLng.lng());
+    //console.log(latLng.lat(), latLng.lng());
   }
 
   async presentAlertConfirm(e) {
@@ -216,7 +220,7 @@ export class MapsPage {
         //console.log(element.date);
         if (difference >= 15) {
         } else {
-          console.log(Math.round(difference));
+          //console.log(difference);
           let latLng = new google.maps.LatLng(
             element.latitude,
             element.longitude
@@ -225,14 +229,18 @@ export class MapsPage {
             position: latLng,
             animation: google.maps.Animation.DROP,
             icon: {
-              url: "/assets/parking.svg",
+              url: "/assets/parking-red.svg",
               scaledSize: { width: 35, height: 35 },
             },
 
             map: this.map,
           });
           
-           // Register a click event listener on the marker to display the corresponding infowindow content
+        /*
+        * Registro el evento al marker para a si cuando le demos click al marker este mostrar una informacion.
+        * Esto hay que hacerlo nada mas crear el marker. Si creamos el marker y luego mas tarde intentamos vincular el addListener no hara nada,
+        * no nos dejara hacer click en el marker para que saque la informacion.
+        */
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
           var tamaño;
           if(element.size == 'big'){
@@ -243,24 +251,22 @@ export class MapsPage {
             tamaño = 'Pequeña';
           }
           return function () {
-              infowindow.setContent("Tamaño de plaza: " + tamaño + "<br/>Tiempo notificado: " + Math.round(difference) + " minutos" );
+              infowindow.setContent("Tamaño de plaza: " + tamaño + "<br/>Tiempo notificado: " + Math.round(difference) + " minutos");
               infowindow.open(this.map, marker);
           }
-
-      })(marker, element));
+      }
+      )(marker, element));
         }
+        
       });
     });
-    
   }
-
   /*getAddressFromCoords(lattitude, longitude) {
     console.log("getAddressFromCoords " + lattitude + " " + longitude);
     let options: NativeGeocoderOptions = {
       useLocale: true,
       maxResults: 5
     };
- 
     this.nativeGeocoder.reverseGeocode(lattitude, longitude, options)
       .then((result: NativeGeocoderResult[]) => {
         this.address = "";
@@ -268,7 +274,6 @@ export class MapsPage {
         for (let [key, value] of Object.entries(result[0])) {
           if (value.length > 0)
             responseAddress.push(value);
- 
         }
         responseAddress.reverse();
         for (let value of responseAddress) {
@@ -279,6 +284,5 @@ export class MapsPage {
       .catch((error: any) => {
         this.address = "Address Not Available!";
       });
- 
   }*/
 }

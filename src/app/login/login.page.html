@@ -1,25 +1,25 @@
 <ion-header>
-  <ion-toolbar color="bluishgreen">
+  <ion-toolbar id="pepe" color="bluishgreen">
     <!--ion-button color="light" (click)="dismissLogin()">Close</ion-button-->
     <ion-title>Iniciar sesión</ion-title>
   </ion-toolbar>
-  <img src="../../assets/login.svg" alt="">
+  <img src="../../assets/login.svg" alt="" *ngIf="showAndHide">
 </ion-header>
-<ion-content padding>
+<ion-content>
   <form #form="ngForm" (ngSubmit)="loginModelService(form)" method="post">
     <ion-item>
-      <ion-label position="floating">Correo electrónico</ion-label>
-      <ion-input ngModel type="email" name="email"></ion-input>
+      <ion-label position="floating">Nombre de usuario</ion-label>
+      <ion-input ngModel type="text" name="username"></ion-input>
     </ion-item>
   
     <ion-item>
       <ion-label position="floating">Contraseña</ion-label>
-      <ion-input ngModel type="password" name="password"></ion-input>
+      <ion-input ngModel type="password" name="password" (keyup.enter)="loginModelService()"></ion-input>
     </ion-item>
   
     <p style="text-align: right;">Recordar contraseña?</p>
   
     <ion-button class="buttonLogin" type="submit" expand="block" color="primary">Iniciar sesión</ion-button>
   </form>
-  <ion-button class="buttonRegister "expand="block" color="danger" (click)="registerModal()">Registrarse</ion-button>
+  <ion-button class="buttonRegister" expand="block" color="danger" (click)="registerModal()">Registrarse</ion-button>
 </ion-content>
