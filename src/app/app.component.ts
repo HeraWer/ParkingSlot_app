@@ -35,7 +35,7 @@ export class AppComponent {
       //this.splashScreen.hide();
       this.modelService.getToken();
       if(this.modelService.isLoggedIn == true){
-        this.navController.navigateRoot('/help');
+        this.navController.navigateRoot('/maps');
       }else {
         this.navController.navigateRoot('/login');
       }

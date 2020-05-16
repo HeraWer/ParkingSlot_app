@@ -135,7 +135,7 @@ export class ModelService {
   }
 
   deleteUser() {
-    return this.http.post<any>(API_URL + "user/deleteUser", JSON.stringify(this.deleteUserMap(localStorage.getItem('username'), false)), {
+    return this.http.post<any>(API_URL + "user/deleteUser", JSON.stringify(this.deleteUserMap(localStorage.getItem('username'), true)), {
       headers: this.getHeaders(localStorage.getItem("token")),
     })
     .pipe(
