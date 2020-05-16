@@ -218,7 +218,7 @@ export class MapsPage {
         
         //if(element.date)
         //console.log(element.date);
-        if (difference >= 15) {
+        if (difference >= 20) {
         } else {
           //console.log(difference);
           let latLng = new google.maps.LatLng(
