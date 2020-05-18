@@ -1,14 +1,15 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { Geolocation } from "@ionic-native/geolocation/ngx";
 import {
-  NativeGeocoder,
-  NativeGeocoderResult,
-  NativeGeocoderOptions,
-} from "@ionic-native/native-geocoder/ngx";
-import { AlertController } from "@ionic/angular";
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+} from "@angular/core";
+import { Geolocation } from "@ionic-native/geolocation/ngx";
+import { NativeGeocoder } from "@ionic-native/native-geocoder/ngx";
+import { AlertController, Platform } from "@ionic/angular";
 import { ModelService } from "../services/model.service";
 import { ToastPage } from "../toast/toast.page";
-import { elementEventFullName } from "@angular/compiler/src/view_compiler/view_compiler";
 
 declare var google;
 
@@ -21,20 +22,35 @@ export class MapsPage {
   @ViewChild("map", { static: false }) mapElement: ElementRef;
   map: any;
   markerDeleted: boolean;
+  markerArray: any = [];
+  _id: any;
 
   latitude: number;
   longitude: number;
 
   constructor(
     private geolocation: Geolocation,
-    private nativeGeocoder: NativeGeocoder,
     private modelService: ModelService,
     private alertController: AlertController,
-    private toast: ToastPage
+    private toast: ToastPage,
+    private platform: Platform
   ) {}
 
   ngOnInit() {
+    if (localStorage.getItem("_id")) {
+      this.deleteLocation();
+    }
     this.loadMap();
+  }
+
+  AfterViewInit() {
+    this.platform.backButton.subscribe(() => {
+      navigator["app"].exitApp();
+    });
+  }
+
+  ngOnDestroy() {
+    this.platform.backButton.unsubscribe();
   }
 
   reloadPage() {
@@ -58,8 +74,6 @@ export class MapsPage {
           mapTypeId: google.maps.MapTypeId.ROADMAP,
         };
 
-
-
         //this.getAddressFromCoords(resp.coords.latitude, resp.coords.longitude);
 
         this.map = new google.maps.Map(
@@ -68,16 +82,16 @@ export class MapsPage {
         );
 
         let marker = new google.maps.Marker({
-        map: this.map,
-        animation: google.maps.Animation.DROP,
-        position: this.map.getCenter(),
-        icon: {
-          url: "/assets/people.svg",
-          scaledSize: { width: 25, height: 25 },
-        },
-      });
-      this.getAllLocations();
-      /*var locations = [
+          map: this.map,
+          animation: google.maps.Animation.DROP,
+          position: this.map.getCenter(),
+          icon: {
+            url: "/assets/people.svg",
+            scaledSize: { width: 25, height: 25 },
+          },
+        });
+        this.getAllLocations();
+        /*var locations = [
         [new google.maps.LatLng(0, 0), 'Marker 1', 'Infowindow content for Marker 1'],
         [new google.maps.LatLng(0, 1), 'Marker 2', 'Infowindow content for Marker 2'],
         [new google.maps.LatLng(0, 2), 'Marker 3', 'Infowindow content for Marker 3'],
@@ -85,10 +99,8 @@ export class MapsPage {
         [new google.maps.LatLng(1, 1), 'Marker 5', 'Infowindow content for Marker 5'],
         [new google.maps.LatLng(1, 2), 'Marker 6', 'Infowindow content for Marker 6']
     ];*/
-    
 
-    
-    /*for (var i = 0; i < locations.length; i++) {
+        /*for (var i = 0; i < locations.length; i++) {
 
 
       
@@ -106,16 +118,20 @@ export class MapsPage {
       // Add marker to markers array
       markers.push(marker);
   }*/
-
+        
         this.map.addListener("click", (e) => {
-
-          var distance = google.maps.geometry.spherical.computeDistanceBetween(e.latLng, latLng);
+          var distance = google.maps.geometry.spherical.computeDistanceBetween(
+            e.latLng,
+            latLng
+          );
           distance = Math.round(distance);
-          
-          if(distance <= 300) {
+
+          if (distance <= 300) {
             this.presentAlertConfirm(e);
-          }else {
-            this.toast.presentToast("Estas demasiado lejos de tu vehiculo para marcar un aparcamiento libre");
+          } else {
+            this.toast.presentToast(
+              "Estás demasiado lejos de tu vehiculo para marcar un aparcamiento libre"
+            );
           }
           //this.latitude = this.map.center.lat();
           //this.longitude = this.map.center.lng();
@@ -182,10 +198,11 @@ export class MapsPage {
         {
           text: "Aceptar",
           handler: (data) => {
-            console.log(e.latLng);
+            //console.log(e.latLng);
             let date = new Date();
-            this.placeMarkerAndPanTo(e.latLng, this.map);
+            //this.placeMarkerAndPanTo(e.latLng, this.map);
             this.saveLocation(e.latLng, data);
+            this.getAllLocations();
           },
         },
       ],
@@ -195,71 +212,104 @@ export class MapsPage {
   }
 
   saveLocation(latLng, size) {
-    console.log(latLng.lat());
+    var _id;
+    //console.log(latLng.lat());
     let date = new Date();
-    console.log(date);
+    //console.log(date);
     this.modelService
       .saveLocation(latLng.lat(), latLng.lng(), size, date)
       .subscribe((data) => {
-        console.log(data);
+        //console.log(data);
         this.toast.presentToast("Aparcamiento guardado correctamente");
-        this.loadMap();
+        //this.loadMap();
       });
   }
 
   getAllLocations() {
+    for (var i = 0; i < this.markerArray.length; i++) {
+      this.markerArray[i].setMap(null);
+    }
+    this.markerArray = [];
     var infowindow = new google.maps.InfoWindow();
     this.modelService.getAllLocations().subscribe((data) => {
       data.forEach((element) => {
-        let date = new Date(element.date);
-        let currentDate = new Date();
-        let difference = currentDate.getTime() - date.getTime();
-        difference = difference / 60000;
-        
-        //if(element.date)
-        //console.log(element.date);
-        if (difference >= 20) {
-        } else {
-          //console.log(difference);
-          let latLng = new google.maps.LatLng(
-            element.latitude,
-            element.longitude
-          );
-          var marker = new google.maps.Marker({
-            position: latLng,
-            animation: google.maps.Animation.DROP,
-            icon: {
-              url: "/assets/parking-red.svg",
-              scaledSize: { width: 35, height: 35 },
-            },
+        if (element.occupied == false) {
+          let date = new Date(element.date);
+          let currentDate = new Date();
+          let difference = currentDate.getTime() - date.getTime();
+          difference = difference / 60000;
 
-            map: this.map,
-          });
-          
-        /*
-        * Registro el evento al marker para a si cuando le demos click al marker este mostrar una informacion.
-        * Esto hay que hacerlo nada mas crear el marker. Si creamos el marker y luego mas tarde intentamos vincular el addListener no hara nada,
-        * no nos dejara hacer click en el marker para que saque la informacion.
-        */
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-          var tamaño;
-          if(element.size == 'big'){
-            tamaño = 'Grande';
-          }else if (element.size == 'medium') {
-            tamaño = 'Mediana';
-          }else {
-            tamaño = 'Pequeña';
-          }
-          return function () {
-              infowindow.setContent("Tamaño de plaza: " + tamaño + "<br/>Tiempo notificado: " + Math.round(difference) + " minutos");
+          //if(element.date)
+          //console.log(element.date);
+          if (difference >= 20) {
+          } else {
+            //console.log(difference);
+            let latLng = new google.maps.LatLng(
+              element.latitude,
+              element.longitude
+            );
+            var marker = new google.maps.Marker({
+              position: latLng,
+              animation: google.maps.Animation.DROP,
+              icon: {
+                url: "/assets/parking-red.svg",
+                scaledSize: { width: 35, height: 35 },
+              },
+
+              map: this.map,
+            });
+
+            this.markerArray.push(marker);
+            var id;
+            /*
+             * Registro el evento al marker para a si cuando le demos click al marker este mostrar una informacion.
+             * Esto hay que hacerlo nada mas crear el marker. Si creamos el marker y luego mas tarde intentamos vincular el addListener no hara nada,
+             * no nos dejara hacer click en el marker para que saque la informacion.
+             */
+            google.maps.event.addListener(marker, "click", function () {
+              var tamaño;
+              if (element.size == "big") {
+                tamaño = "Grande";
+              } else if (element.size == "medium") {
+                tamaño = "Mediana";
+              } else {
+                tamaño = "Pequeña";
+              }
+
+              var content = document.createElement("div");
+              var p = content.appendChild(document.createElement("p"));
+              p.innerHTML =
+                "Tamaño de plaza: " +
+                tamaño +
+                "<br>Tiempo notificado: " +
+                Math.round(difference) +
+                " minutos";
+
+              var button = content.appendChild(document.createElement("input"));
+              button.type = "button";
+              button.id = "showMoreButton";
+              button.value = "Ocupar Plaza";
+
+              infowindow.setContent(content);
               infowindow.open(this.map, marker);
+              button.addEventListener("click", function () {
+                localStorage.setItem("_id", element._id);
+                window.location.reload();
+              });
+            });
           }
-      }
-      )(marker, element));
         }
-        
       });
     });
+  }
+
+  deleteLocation() {
+    this.modelService
+      .deleteLocation(localStorage.getItem("_id"), true)
+      .subscribe((data) => {
+        this.toast.presentToast(data.mensaje);
+        localStorage.removeItem("_id");
+      });
   }
   /*getAddressFromCoords(lattitude, longitude) {
     console.log("getAddressFromCoords " + lattitude + " " + longitude);

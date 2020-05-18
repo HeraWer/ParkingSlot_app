@@ -1,6 +1,6 @@
 import { Component, ViewChild } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
-import { NavController, AlertController } from "@ionic/angular";
+import { NavController, AlertController, LoadingController } from "@ionic/angular";
 import { ModelService } from "../services/model.service";
 import { NgForm } from "@angular/forms";
 import { ToastPage } from "../toast/toast.page";
@@ -20,7 +20,8 @@ export class LoginPage {
     private modelService: ModelService,
     private navController: NavController,
     private toast: ToastPage,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private loadingController: LoadingController
   ) {
     /*
      * Detecta los eventos de cuando se abre el teclado en el dispostivo
@@ -28,7 +29,7 @@ export class LoginPage {
     window.addEventListener("keyboardWillShow", (e) => {
       if (this.showAndHide) {
         this.showAndHide = !this.showAndHide;
-        var elem = document.getElementById("pepe");
+        var elem = document.getElementById("hide");
         elem.style.marginBottom = "10vh";
       }
     });
@@ -40,7 +41,7 @@ export class LoginPage {
     window.addEventListener("keyboardWillHide", () => {
       if (!this.showAndHide) {
         this.showAndHide = !this.showAndHide;
-        var elem = document.getElementById("pepe");
+        var elem = document.getElementById("hide");
         elem.style.marginBottom = "0vh";
       }
     });
@@ -58,18 +59,20 @@ export class LoginPage {
    */
   loginModelService(form: NgForm) {
     console.log(form.value.username);
+    this.presentLoading()
     this.modelService.login(form.value.username, form.value.password).subscribe(
       (data) => {
         if (!data.token) {
           this.toast.presentToast(data.mensaje);
+          this.loadingController.dismiss();
         } else {
           this.username = data.username;
           this.token = data.token;
-          console.log(this.token);
           this.presentAlert(
             "¡¡ Información !!",
             "A continuación, le explicamos en 2 sencillos pasos el funcionamiento de la aplicación:"
           );
+          this.loadingController.dismiss();
           this.navController.navigateRoot("/maps");
         }
       },
@@ -100,10 +103,10 @@ export class LoginPage {
                 "¡¡ Paso 1 !!",
                 "En el mapa de la aplicación, podrá visualizar  cualquier aparcamiento libre marcado con un icono rojo. <br><br>Pulsando encima del icono, se obtiene cierta información; cuantos minutos hace que se liberó la plaza, y el tamaño."
               );
-            }else if(title == '¡¡ Paso 1 !!') {
+            }else if(title == '¡¡ Paso 3 !!') {
               this.presentAlert(
-                "¡¡ Información !!",
-                "A continuación, le explicamos en 2 sencillos pasos el funcionamiento de la aplicación:"
+                "¡¡ Paso 2 !!",
+                "Para poder notificar que ha dejado libre su plaza, una vez se encuentre en su vehículo, abra la App, haga clic en el mapa y continue los pasos."
               );
             }else {
               this.presentAlert(
@@ -126,6 +129,11 @@ export class LoginPage {
                 "¡¡ Paso 2 !!",
                 "Para poder notificar que ha dejado libre su plaza, una vez se encuentre en su vehículo, abra la App, haga clic en el mapa y continue los pasos."
               );
+            } else if (title == "¡¡ Paso 2 !!") {
+              this.presentAlert(
+                "¡¡ Paso 3 !!",
+                "Para poder notificar que ha ocupado una plaza, una vez haya aparcado, abra la App, pulse en el marcador de la plaza libre que ocupó i pulse <<ocupar plaza>>."
+              );
             }
           },
         }
@@ -134,5 +142,13 @@ export class LoginPage {
     });
 
     await alert.present();
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Iniciando sesion...',
+      duration: 10000
+    });
+    await loading.present();
   }
 }

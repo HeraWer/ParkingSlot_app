@@ -26,7 +26,7 @@ export class RegisterPage implements OnInit {
     window.addEventListener("keyboardWillShow", (e) => {
       if (this.showAndHide) {
         this.showAndHide = !this.showAndHide;
-        var elem = document.getElementById("pepe");
+        var elem = document.getElementById("hide");
         elem.style.marginBottom = "5vh";
       }
     });
@@ -38,7 +38,7 @@ export class RegisterPage implements OnInit {
     window.addEventListener("keyboardWillHide", () => {
       if (!this.showAndHide) {
         this.showAndHide = !this.showAndHide;
-        var elem = document.getElementById("pepe");
+        var elem = document.getElementById("hide");
         elem.style.marginBottom = "0vh";
       }
     });

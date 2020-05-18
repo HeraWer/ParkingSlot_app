@@ -33,10 +33,10 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.menu.swipeGesture(false);
-      //this.splashScreen.hide();
+      this.splashScreen.hide();
       this.modelService.getToken();
       if(this.modelService.isLoggedIn == true){
-        this.navController.navigateRoot('/profile');
+        this.navController.navigateRoot('/maps');
       }else {
         this.navController.navigateRoot('/login');
       }

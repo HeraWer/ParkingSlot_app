@@ -145,6 +145,17 @@ export class ModelService {
     )
   }
 
+  deleteLocation(_id, occupied) {
+    return this.http.post<any>(API_URL + "location/deleteLocation", JSON.stringify(this.deleteLocationMap(_id, occupied)), {
+      headers: this.getHeaders(localStorage.getItem("token")),
+    })
+    .pipe(
+      map((data: any) => {
+        return data;
+      })
+    )
+  }
+
   // METODOS HEADERS Y TOKENS //
   /*
    * Para ver si el token existe o no existe a si iniciar sesion directamente con el usuario o llevarlo a la pantalla de inicio de sesion
@@ -238,6 +249,13 @@ export class ModelService {
     return {
       username: username,
       is_deleted: is_deleted
+    }
+  }
+
+  deleteLocationMap(_id, occupied) {
+    return {
+      _id: _id,
+      occupied: occupied
     }
   }
 }

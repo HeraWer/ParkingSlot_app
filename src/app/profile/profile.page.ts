@@ -16,13 +16,42 @@ export class ProfilePage implements OnInit {
   oldUsername: any;
   password: any;
   confirmPassword: any;
+  public showAndHide: boolean = true;
 
   check: boolean;
 
   constructor(
     private modelService: ModelService,
     private toast: ToastPage,
-    private navController: NavController) {}
+    private navController: NavController) 
+    {
+          /*
+     * Detecta los eventos de cuando se abre el teclado en el dispostivo
+     */
+    window.addEventListener("keyboardWillShow", (e) => {
+      if (this.showAndHide) {
+        this.showAndHide = !this.showAndHide;
+        var elem = document.getElementById("hide");
+        elem.style.marginBottom = "10vh";
+      }
+    });
+
+    /*window.addEventListener('keyboardDidShow', (e) => {
+      
+    });*/
+
+    window.addEventListener("keyboardWillHide", () => {
+      if (!this.showAndHide) {
+        this.showAndHide = !this.showAndHide;
+        var elem = document.getElementById("hide");
+        elem.style.marginBottom = "0vh";
+      }
+    });
+
+    /*window.addEventListener('keyboardDidHide', () => {
+      console.log('keyboard did hide');
+    });*/
+    }
 
   ngOnInit() {}
   
@@ -35,7 +64,6 @@ export class ProfilePage implements OnInit {
   ionViewWillEnter() {
     this.modelService.getUser().subscribe(
       (data) => {
-        console.log(data);
         this.email = data.email;
         this.username = data.username;
         this.oldUsername = data.username;
@@ -61,7 +89,8 @@ export class ProfilePage implements OnInit {
   */
   updateUser() {
     if (this.password == undefined) {
-      this.modelService
+      if(this.email.includes("@") && this.email.includes(".")) {
+        this.modelService
         .updateUser(this.oldUsername, this.username, this.email, undefined)
         .subscribe((data) => {
           localStorage.setItem('username', this.username);
@@ -70,9 +99,13 @@ export class ProfilePage implements OnInit {
           this.toast.presentToast("Usuario modificado correctamente");
           this.navController.navigateRoot("/maps");
         });
+      } else {
+        this.toast.presentToast("El correo electronico no es correcto.");
+      }
     } else {
       if (this.password == this.confirmPassword) {
-        this.modelService
+        if(this.email.includes("@") && this.email.includes(".")) {
+          this.modelService
           .updateUser(
             this.oldUsername,
             this.username,
@@ -85,6 +118,9 @@ export class ProfilePage implements OnInit {
             this.toast.presentToast("Usuario modificado correctamente");
             this.navController.navigateRoot("/maps");
           });
+        } else {
+          this.toast.presentToast("El correo electronico no es correcto.");
+        }
       } else {
         this.toast.presentToast('Las contraseñas no cuencididen')
       }
