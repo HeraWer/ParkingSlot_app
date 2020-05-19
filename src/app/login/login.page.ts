@@ -70,7 +70,7 @@ export class LoginPage {
           this.token = data.token;
           this.presentAlert(
             "¡¡ Información !!",
-            "A continuación, le explicamos en 2 sencillos pasos el funcionamiento de la aplicación:"
+            "A continuación, le explicamos en 3 sencillos pasos el funcionamiento de la aplicación:"
           );
           this.loadingController.dismiss();
           this.navController.navigateRoot("/maps");
@@ -111,7 +111,7 @@ export class LoginPage {
             }else {
               this.presentAlert(
                 "¡¡ Información !!",
-                "A continuación, le explicamos en 2 sencillos pasos el funcionamiento de la aplicación:"
+                "A continuación, le explicamos en 3 sencillos pasos el funcionamiento de la aplicación:"
               );
             }
           }
@@ -132,7 +132,7 @@ export class LoginPage {
             } else if (title == "¡¡ Paso 2 !!") {
               this.presentAlert(
                 "¡¡ Paso 3 !!",
-                "Para poder notificar que ha ocupado una plaza, una vez haya aparcado, abra la App, pulse en el marcador de la plaza libre que ocupó i pulse <<ocupar plaza>>."
+                "Para poder notificar que ha ocupado una plaza, una vez haya aparcado, abra la App, pulse en el marcador de la plaza libre que ocupó i pulse 'ocupar plaza'."
               );
             }
           },
