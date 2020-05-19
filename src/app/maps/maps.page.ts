@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { NativeGeocoder } from "@ionic-native/native-geocoder/ngx";
-import { AlertController, Platform } from "@ionic/angular";
+import { AlertController, Platform, LoadingController } from "@ionic/angular";
 import { ModelService } from "../services/model.service";
 import { ToastPage } from "../toast/toast.page";
 
@@ -33,7 +33,8 @@ export class MapsPage {
     private modelService: ModelService,
     private alertController: AlertController,
     private toast: ToastPage,
-    private platform: Platform
+    private platform: Platform,
+    private loadingController: LoadingController
   ) {}
 
   ngOnInit() {
@@ -198,11 +199,15 @@ export class MapsPage {
         {
           text: "Aceptar",
           handler: (data) => {
+            this.presentLoading();
             //console.log(e.latLng);
             let date = new Date();
             //this.placeMarkerAndPanTo(e.latLng, this.map);
             this.saveLocation(e.latLng, data);
-            this.getAllLocations();
+            setTimeout(() => {
+              this.loadingController.dismiss();
+              this.getAllLocations();
+            }, 3000)
           },
         },
       ],
@@ -219,7 +224,6 @@ export class MapsPage {
     this.modelService
       .saveLocation(latLng.lat(), latLng.lng(), size, date)
       .subscribe((data) => {
-        //console.log(data);
         this.toast.presentToast("Aparcamiento guardado correctamente");
         //this.loadMap();
       });
@@ -335,4 +339,12 @@ export class MapsPage {
         this.address = "Address Not Available!";
       });
   }*/
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Liberando aparcamiento...',
+      duration: 10000
+    });
+    await loading.present();
+  }
 }

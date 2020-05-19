@@ -19,9 +19,9 @@ import { NativeStorage } from "@ionic-native/native-storage/ngx";
   providedIn: "root",
 })
 /*
-  * MODEL SERVICE es la el TS encargado de conectarse con API y de enviar y recibir datos de la API 
-  * y conectar con todas las pages que necesitan peticiones
-  */
+ * MODEL SERVICE es la el TS encargado de conectarse con API y de enviar y recibir datos de la API
+ * y conectar con todas las pages que necesitan peticiones
+ */
 export class ModelService {
   isLoggedIn = false;
   token: any;
@@ -29,11 +29,9 @@ export class ModelService {
 
   constructor(private http: HttpClient, private nativeStorage: NativeStorage) {}
 
-  
-
-  /* 
-  * Metodo que llama al getUser de la API envia por los datos por parametros, los parametros se pasan por URL
-  */
+  /*
+   * Metodo que llama al getUser de la API envia por los datos por parametros, los parametros se pasan por URL
+   */
   getUser() {
     return this.http
       .get(API_URL + "user/getUser", {
@@ -50,9 +48,9 @@ export class ModelService {
   }
 
   /*
-  * Metodo que hace una peticion para hacer el login, el cual se le pasa el correo y la contraseña
-  * DATO: Me gustaria saber como realmente funcionan los headers y cual es su finalidad.
-  */
+   * Metodo que hace una peticion para hacer el login, el cual se le pasa el correo y la contraseña
+   * DATO: Me gustaria saber como realmente funcionan los headers y cual es su finalidad.
+   */
   login(username, password): Observable<any> {
     return this.http
       .post<any>(
@@ -97,13 +95,19 @@ export class ModelService {
   }
 
   /*
-  * Metodo para hacer una peticion para modificar el currentUser
-  */
+   * Metodo para hacer una peticion para modificar el currentUser
+   */
   updateUser(usernameOld, username, email, password) {
     return this.http
-      .post<any>(API_URL + "user/updateUser", JSON.stringify(this.updateUseMap(usernameOld, username, email, password)), {
-        headers: this.getHeaders(localStorage.getItem("token")),
-      })
+      .post<any>(
+        API_URL + "user/updateUser",
+        JSON.stringify(
+          this.updateUseMap(usernameOld, username, email, password)
+        ),
+        {
+          headers: this.getHeaders(localStorage.getItem("token")),
+        }
+      )
       .pipe(
         map((data: any) => {
           return data;
@@ -113,47 +117,64 @@ export class ModelService {
 
   saveLocation(latitude, longitude, size, date) {
     return this.http
-    .post<any>(API_URL + "location/saveLocation", JSON.stringify(this.locationMap(latitude, longitude, size, date)), {
-      headers: this.getHeaders(localStorage.getItem("token")),
-    })
-    .pipe(
-      map((data: any) => {
-        return data;
-      })
-    )
+      .post<any>(
+        API_URL + "location/saveLocation",
+        JSON.stringify(this.locationMap(latitude, longitude, size, date)),
+        {
+          headers: this.getHeaders(localStorage.getItem("token")),
+        }
+      )
+      .pipe(
+        map((data: any) => {
+          return data;
+        })
+      );
   }
 
   getAllLocations() {
-    return this.http.get<any>(API_URL + 'location/allLocations', {
-      headers: this.getHeaders(localStorage.getItem('token')),
-    })
-    .pipe(
-      map((data: any) => {
-        return data;
+    return this.http
+      .get<any>(API_URL + "location/allLocations", {
+        headers: this.getHeaders(localStorage.getItem("token")),
       })
-    )
+      .pipe(
+        map((data: any) => {
+          return data;
+        })
+      );
   }
 
   deleteUser() {
-    return this.http.post<any>(API_URL + "user/deleteUser", JSON.stringify(this.deleteUserMap(localStorage.getItem('username'), true)), {
-      headers: this.getHeaders(localStorage.getItem("token")),
-    })
-    .pipe(
-      map((data: any) => {
-        return data;
-      })
-    )
+    return this.http
+      .post<any>(
+        API_URL + "user/deleteUser",
+        JSON.stringify(
+          this.deleteUserMap(localStorage.getItem("username"), true)
+        ),
+        {
+          headers: this.getHeaders(localStorage.getItem("token")),
+        }
+      )
+      .pipe(
+        map((data: any) => {
+          return data;
+        })
+      );
   }
 
   deleteLocation(_id, occupied) {
-    return this.http.post<any>(API_URL + "location/deleteLocation", JSON.stringify(this.deleteLocationMap(_id, occupied)), {
-      headers: this.getHeaders(localStorage.getItem("token")),
-    })
-    .pipe(
-      map((data: any) => {
-        return data;
-      })
-    )
+    return this.http
+      .post<any>(
+        API_URL + "location/deleteLocation",
+        JSON.stringify(this.deleteLocationMap(_id, occupied)),
+        {
+          headers: this.getHeaders(localStorage.getItem("token")),
+        }
+      )
+      .pipe(
+        map((data: any) => {
+          return data;
+        })
+      );
   }
 
   // METODOS HEADERS Y TOKENS //
@@ -172,9 +193,9 @@ export class ModelService {
   }
 
   /*
-  * No entiendo realmente su funcionalidad, lo copie de una pagina web porque veo que las peticiones necesitan
-  * tener declarado la variable heders:
-  */
+   * No entiendo realmente su funcionalidad, lo copie de una pagina web porque veo que las peticiones necesitan
+   * tener declarado la variable heders:
+   */
   private getHeaders(login, multipart?) {
     var token = localStorage.getItem("token");
     if (login) {
@@ -231,7 +252,7 @@ export class ModelService {
         oldUsername: oldUsername,
         username: username,
         email: email,
-        password: password
+        password: password,
       };
     }
   }
@@ -241,21 +262,21 @@ export class ModelService {
       latitude: latitude,
       longitude: longitude,
       size: size,
-      date: date
-    }
+      date: date,
+    };
   }
 
   deleteUserMap(username, is_deleted) {
     return {
       username: username,
-      is_deleted: is_deleted
-    }
+      is_deleted: is_deleted,
+    };
   }
 
   deleteLocationMap(_id, occupied) {
     return {
       _id: _id,
-      occupied: occupied
-    }
+      occupied: occupied,
+    };
   }
 }

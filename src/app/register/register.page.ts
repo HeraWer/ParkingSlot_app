@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ModelService } from "../services/model.service";
-import { NavController, Platform } from "@ionic/angular";
+import { NavController, Platform, LoadingController } from "@ionic/angular";
 import { NgForm, EmailValidator, FormControl } from "@angular/forms";
 import { ToastPage } from "../toast/toast.page";
 
@@ -18,7 +18,8 @@ export class RegisterPage implements OnInit {
   constructor(
     private modelService: ModelService,
     private navCotroller: NavController,
-    private toast: ToastPage
+    private toast: ToastPage,
+    private loadingController: LoadingController
   ) {
     /*
      * Detecta los eventos de cuando se abre el teclado en el dispostivo
@@ -57,9 +58,9 @@ export class RegisterPage implements OnInit {
     this.username = form.value.username;
     this.email = form.value.email;
     this.password = form.value.password;
-
     if (this.email.includes("@") && this.email.includes(".")) {
       if (form.value.password == form.value.confirmPassword) {
+        this.presentLoading();
         this.modelService
           .newUser(form.value.username, form.value.email, form.value.password)
           .subscribe(
@@ -67,10 +68,10 @@ export class RegisterPage implements OnInit {
               if (data.mensaje == "Usuario creado correctamente") {
                 this.toast.presentToast(data.mensaje);
                 this.navCotroller.navigateRoot("/login");
+                this.loadingController.dismiss()
               } else {
-                this.toast.presentToast(
-                  "El nombre de usuario o el correo electronico ya existe"
-                );
+                this.toast.presentToast("El nombre de usuario o el correo electronico ya existe");
+                this.loadingController.dismiss()
               }
             },
             (error) => {
@@ -83,5 +84,13 @@ export class RegisterPage implements OnInit {
     } else {
       this.toast.presentToast("El correo electronico no es correcto.");
     }
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Registrando usuario...',
+      duration: 5000
+    });
+    await loading.present();
   }
 }
