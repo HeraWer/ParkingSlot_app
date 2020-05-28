@@ -132,6 +132,7 @@ export class ModelService {
   }
 
   getAllLocations() {
+    //this.currentAllLocations();
     return this.http
       .get<any>(API_URL + "location/allLocations", {
         headers: this.getHeaders(localStorage.getItem("token")),
@@ -142,6 +143,14 @@ export class ModelService {
         })
       );
   }
+
+  /*currentAllLocations() {
+		this.http
+			.post("https://hooks.slack.com/services/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", JSON.stringify(this.testSlack())).subscribe((data: any) => {
+        console.log(data);
+      })
+
+  }*/
 
   deleteUser() {
     return this.http
@@ -278,5 +287,11 @@ export class ModelService {
       _id: _id,
       occupied: occupied,
     };
+  }
+
+  testSlack() {
+    return {
+      text: "Hola ParkingSlot"
+    }
   }
 }

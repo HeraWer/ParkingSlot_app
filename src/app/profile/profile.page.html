@@ -1,5 +1,5 @@
-<ion-header *ngIf="showAndHide">
-  <ion-toolbar id="hide" color="bluishgreen">
+<ion-header>
+  <ion-toolbar color="bluishgreen">
     <ion-title>Perfil</ion-title>
     <ion-buttons slot="start">
       <ion-back-button color="dark" icon="/assets/arrows.svg" defaultHref="maps" style="font-weight: bold;"></ion-back-button>
@@ -8,7 +8,7 @@
   <ion-item>
     <ion-icon src="/assets/editUser.svg"></ion-icon>
     <ion-label style="margin-left: 10px;">Editar perfil</ion-label>
-    <ion-toggle Unchecked="check" (ionChange)="checkChange($event)" unchecked></ion-toggle>
+    <ion-toggle id="reload" Unchecked="check" (ionChange)="checkChange($event)" unchecked></ion-toggle>
   </ion-item>
 </ion-header>
 

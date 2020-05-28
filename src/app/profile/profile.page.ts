@@ -24,34 +24,7 @@ export class ProfilePage implements OnInit {
     private modelService: ModelService,
     private toast: ToastPage,
     private navController: NavController) 
-    {
-          /*
-     * Detecta los eventos de cuando se abre el teclado en el dispostivo
-     */
-    window.addEventListener("keyboardWillShow", (e) => {
-      if (this.showAndHide) {
-        this.showAndHide = !this.showAndHide;
-        var elem = document.getElementById("hide");
-        elem.style.marginBottom = "10vh";
-      }
-    });
-
-    /*window.addEventListener('keyboardDidShow', (e) => {
-      
-    });*/
-
-    window.addEventListener("keyboardWillHide", () => {
-      if (!this.showAndHide) {
-        this.showAndHide = !this.showAndHide;
-        var elem = document.getElementById("hide");
-        elem.style.marginBottom = "0vh";
-      }
-    });
-
-    /*window.addEventListener('keyboardDidHide', () => {
-      console.log('keyboard did hide');
-    });*/
-    }
+    {}
 
   ngOnInit() {}
   
@@ -97,7 +70,7 @@ export class ProfilePage implements OnInit {
           this.username = data.username;
           this.email = data.email;
           this.toast.presentToast("Usuario modificado correctamente");
-          this.navController.navigateRoot("/maps");
+          this.navController.navigateRoot('/maps');
         });
       } else {
         this.toast.presentToast("El correo electronico no es correcto.");
@@ -116,7 +89,7 @@ export class ProfilePage implements OnInit {
             this.username = data.username;
             this.email = data.email;
             this.toast.presentToast("Usuario modificado correctamente");
-            this.navController.navigateRoot("/maps");
+            this.navController.navigateRoot('/maps');
           });
         } else {
           this.toast.presentToast("El correo electronico no es correcto.");

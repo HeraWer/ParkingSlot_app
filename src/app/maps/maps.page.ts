@@ -91,34 +91,9 @@ export class MapsPage {
             scaledSize: { width: 25, height: 25 },
           },
         });
-        this.getAllLocations();
-        /*var locations = [
-        [new google.maps.LatLng(0, 0), 'Marker 1', 'Infowindow content for Marker 1'],
-        [new google.maps.LatLng(0, 1), 'Marker 2', 'Infowindow content for Marker 2'],
-        [new google.maps.LatLng(0, 2), 'Marker 3', 'Infowindow content for Marker 3'],
-        [new google.maps.LatLng(1, 0), 'Marker 4', 'Infowindow content for Marker 4'],
-        [new google.maps.LatLng(1, 1), 'Marker 5', 'Infowindow content for Marker 5'],
-        [new google.maps.LatLng(1, 2), 'Marker 6', 'Infowindow content for Marker 6']
-    ];*/
-
-        /*for (var i = 0; i < locations.length; i++) {
-
-
-      
-
-      // Register a click event listener on the marker to display the corresponding infowindow content
-      google.maps.event.addListener(marker, 'click', (function (marker, i) {
-
-          return function () {
-              infowindow.setContent(locations[i][2]);
-              infowindow.open(this.map, marker);
-          }
-
-      })(marker, i));
-
-      // Add marker to markers array
-      markers.push(marker);
-  }*/
+        setTimeout(() => {
+          this.getAllLocations();
+        }, 2000)
         
         this.map.addListener("click", (e) => {
           var distance = google.maps.geometry.spherical.computeDistanceBetween(
@@ -199,7 +174,7 @@ export class MapsPage {
         {
           text: "Aceptar",
           handler: (data) => {
-            this.presentLoading();
+            this.presentLoadingReleasing();
             //console.log(e.latLng);
             let date = new Date();
             //this.placeMarkerAndPanTo(e.latLng, this.map);
@@ -308,6 +283,7 @@ export class MapsPage {
   }
 
   deleteLocation() {
+    this.presentLoadingOccupied();
     this.modelService
       .deleteLocation(localStorage.getItem("_id"), true)
       .subscribe((data) => {
@@ -340,10 +316,18 @@ export class MapsPage {
       });
   }*/
 
-  async presentLoading() {
+  async presentLoadingReleasing() {
     const loading = await this.loadingController.create({
       message: 'Liberando aparcamiento...',
-      duration: 10000
+      duration: 3000
+    });
+    await loading.present();
+  }
+
+  async presentLoadingOccupied() {
+    const loading = await this.loadingController.create({
+      message: 'Ocupando aparcamiento...',
+      duration: 3000
     });
     await loading.present();
   }
