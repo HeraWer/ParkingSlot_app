@@ -57,7 +57,7 @@ export class AppComponent {
   
   // Hacemos logout de nuestra sesion, borrando el token, cerramos menu lateral
   logout() {
-    localStorage.removeItem('token');
+    localStorage.clear();
     this.navController.navigateRoot('/login');
     this.menu.close('first');
   }

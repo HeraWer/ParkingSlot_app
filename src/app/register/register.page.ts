@@ -59,27 +59,35 @@ export class RegisterPage implements OnInit {
     this.email = form.value.email;
     this.password = form.value.password;
     if (this.email.includes("@") && this.email.includes(".")) {
-      if (form.value.password == form.value.confirmPassword) {
-        this.presentLoading();
-        this.modelService
-          .newUser(form.value.username, form.value.email, form.value.password)
-          .subscribe(
-            (data) => {
-              if (data.mensaje == "Usuario creado correctamente") {
-                this.toast.presentToast(data.mensaje);
-                this.navCotroller.navigateRoot("/login");
-                this.loadingController.dismiss()
-              } else {
-                this.toast.presentToast("El nombre de usuario o el correo electronico ya existe");
-                this.loadingController.dismiss()
+      if (form.value.password.length >= 6) {
+        if (form.value.password == form.value.confirmPassword) {
+          this.presentLoading();
+          this.modelService
+            .newUser(form.value.username, form.value.email, form.value.password)
+            .subscribe(
+              (data) => {
+                if (data.mensaje == "Usuario creado correctamente") {
+                  this.toast.presentToast(data.mensaje);
+                  this.navCotroller.navigateRoot("/login");
+                  this.loadingController.dismiss();
+                } else {
+                  this.toast.presentToast(
+                    "El nombre de usuario o el correo electronico ya existe"
+                  );
+                  this.loadingController.dismiss();
+                }
+              },
+              (error) => {
+                console.log(error);
               }
-            },
-            (error) => {
-              console.log(error);
-            }
-          );
+            );
+        } else {
+          this.toast.presentToast("La contraseñas no cuenciden.");
+        }
       } else {
-        this.toast.presentToast("La contraseñas no cuenciden.");
+        this.toast.presentToast(
+          "La contraseña debe contener almenos 6 caracteres."
+        );
       }
     } else {
       this.toast.presentToast("El correo electronico no es correcto.");
@@ -88,8 +96,8 @@ export class RegisterPage implements OnInit {
 
   async presentLoading() {
     const loading = await this.loadingController.create({
-      message: 'Registrando usuario...',
-      duration: 5000
+      message: "Registrando usuario...",
+      duration: 5000,
     });
     await loading.present();
   }

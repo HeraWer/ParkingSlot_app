@@ -103,7 +103,7 @@ export class MapsPage {
           distance = Math.round(distance);
 
           if (distance <= 300) {
-            this.presentAlertConfirm(e);
+            this.presentAlertSize(e);
           } else {
             this.toast.presentToast(
               "Estás demasiado lejos de tu vehiculo para marcar un aparcamiento libre"
@@ -136,7 +136,7 @@ export class MapsPage {
     //console.log(latLng.lat(), latLng.lng());
   }
 
-  async presentAlertConfirm(e) {
+  async presentAlertSize(e) {
     const alert = await this.alertController.create({
       header: "Confirmacion",
       message:
@@ -168,17 +168,64 @@ export class MapsPage {
           text: "Cancelar",
           role: "cancel",
           handler: () => {
-            this.toast.presentToast("Aparcamientro cancelado");
+            this.toast.presentToast("Aparcamiento cancelado");
           },
         },
         {
           text: "Aceptar",
-          handler: (data) => {
+          handler: (size) => {
+            this.presentAlertZone(e, size)
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async presentAlertZone(e, size) {
+    const alert = await this.alertController.create({
+      header: "Confirmacion",
+      message:
+        "<strong>Selecciona el tipo de zona del aparcamiento</strong>",
+      cssClass: "alertIntro",
+      inputs: [
+        {
+          name: "white",
+          type: "radio",
+          label: "Zona blanca",
+          value: "white",
+          checked: true
+        },
+        {
+          name: "blue",
+          type: "radio",
+          label: "Zona azul",
+          value: "blue"
+        },
+        {
+          name: "green",
+          type: "radio",
+          label: "Zona verde",
+          value: "green",
+        },
+      ],
+      buttons: [
+        {
+          text: "Cancelar",
+          role: "cancel",
+          handler: () => {
+            this.toast.presentToast("Aparcamiento cancelado");
+          },
+        },
+        {
+          text: "Aceptar",
+          handler: (zone) => {
             this.presentLoadingReleasing();
             //console.log(e.latLng);
             let date = new Date();
             //this.placeMarkerAndPanTo(e.latLng, this.map);
-            this.saveLocation(e.latLng, data);
+            this.saveLocation(e.latLng, size, zone);
             setTimeout(() => {
               this.loadingController.dismiss();
               this.getAllLocations();
@@ -191,13 +238,13 @@ export class MapsPage {
     await alert.present();
   }
 
-  saveLocation(latLng, size) {
+  saveLocation(latLng, size, zone) {
     var _id;
     //console.log(latLng.lat());
     let date = new Date();
     //console.log(date);
     this.modelService
-      .saveLocation(latLng.lat(), latLng.lng(), size, date)
+      .saveLocation(latLng.lat(), latLng.lng(), size, zone, date)
       .subscribe((data) => {
         this.toast.presentToast("Aparcamiento guardado correctamente");
         //this.loadMap();
@@ -205,6 +252,7 @@ export class MapsPage {
   }
 
   getAllLocations() {
+    var url;
     for (var i = 0; i < this.markerArray.length; i++) {
       this.markerArray[i].setMap(null);
     }
@@ -227,11 +275,19 @@ export class MapsPage {
               element.latitude,
               element.longitude
             );
+
+            if(element.zone == "white") {
+              url = "/assets/parking-red.svg"
+            }else if(element.zone == "green") {
+              url = "/assets/parking-green.svg"
+            }else if(element.zone == "blue") {
+              url = "/assets/parking-blue.svg"
+            }
             var marker = new google.maps.Marker({
               position: latLng,
               animation: google.maps.Animation.DROP,
               icon: {
-                url: "/assets/parking-red.svg",
+                url: url,
                 scaledSize: { width: 35, height: 35 },
               },
 

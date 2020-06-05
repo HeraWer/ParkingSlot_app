@@ -115,11 +115,11 @@ export class ModelService {
       );
   }
 
-  saveLocation(latitude, longitude, size, date) {
+  saveLocation(latitude, longitude, size, zone, date) {
     return this.http
       .post<any>(
         API_URL + "location/saveLocation",
-        JSON.stringify(this.locationMap(latitude, longitude, size, date)),
+        JSON.stringify(this.locationMap(latitude, longitude, size, zone, date)),
         {
           headers: this.getHeaders(localStorage.getItem("token")),
         }
@@ -266,11 +266,12 @@ export class ModelService {
     }
   }
 
-  locationMap(latitude, longitude, size, date) {
+  locationMap(latitude, longitude, size, zone, date) {
     return {
       latitude: latitude,
       longitude: longitude,
       size: size,
+      zone: zone,
       date: date,
     };
   }
