@@ -15,8 +15,12 @@ ion-toolbar {
   color: black;
 }
 
-p {
+a {
   font-weight: bold;
+  display: block;
+  text-align: center;
+  font-size: 11px;
+  margin-top: 5%;
 }
 
 .buttonLogin {

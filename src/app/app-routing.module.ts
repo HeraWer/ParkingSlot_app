@@ -36,6 +36,10 @@ const routes: Routes = [
   {
     path: 'help',
     loadChildren: () => import('./help/help.module').then( m => m.HelpPageModule)
+  },
+  {
+    path: 'resendandrecover',
+    loadChildren: () => import('./resendandrecover/resendandrecover.module').then( m => m.ResendandrecoverPageModule)
   }
 
 

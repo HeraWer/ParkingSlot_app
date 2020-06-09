@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar id="hide" color="bluishgreen">
+    <ion-title>Acciones</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button
+        color="dark"
+        icon="/assets/arrows.svg"
+        defaultHref="login"
+        style="font-weight: bold;"
+      ></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <img src="../../assets/verified.svg" alt="" *ngIf="showAndHide" />
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="floating">Tu correo electrónico</ion-label>
+    <ion-input [(ngModel)]="email"></ion-input>
+  </ion-item>
+
+  <ion-button class="buttonVerify" expand="block" color="primary" (click)="sendEmailVerify()">Enviar email verificación</ion-button>
+  <ion-button class="buttonRecovery" expand="block" color="danger" (click)="sendEmailPasswordAndEditPassword()">Recordar contraseña</ion-button>
+  <ion-button class="buttonAccount" expand="block" color="dark" (click)="sendEmailRecoveryAccount()">Recuperar cuenta</ion-button>
+</ion-content>

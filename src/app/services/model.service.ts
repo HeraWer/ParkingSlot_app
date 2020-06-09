@@ -47,6 +47,77 @@ export class ModelService {
       );
   }
 
+    /*
+   * Metodo que llama al getUserEmail de la API envia por los datos por parametros, los parametros se pasan por URL
+   */
+  getUserEmail(email) {
+    return this.http
+      .get(API_URL + "user/getUserEmail", {
+        params: {
+          email: email
+        },
+      })
+      .pipe(
+        map((data: any) => {
+          return data;
+        })
+      );
+  }
+
+  /*
+   * Metodo que llama al sendEmail de la API envia por los datos por parametros, los parametros se pasan por URL
+   * para reenviar el correo de verificacion
+   */
+  sendEmail(email) {
+    return this.http
+      .get(API_URL + "user/sendEmailVerify", {
+        params: {
+          email: email
+        },
+      })
+      .pipe(
+        map((data: any) => {
+          return data;
+        })
+      );
+  }
+
+  /*
+   * Metodo que llama al sendEmailPasswor de la API envia por los datos por parametros, los parametros se pasan por URL
+   * para recuperar la contraseña. Enviando un correo y con el link veras tu nuevo contraseña
+   */
+  sendEmailPassword(email) {
+    return this.http
+      .get(API_URL + "user/sendEmailPassword", {
+        params: {
+          email: email
+        },
+      })
+      .pipe(
+        map((data: any) => {
+          return data;
+        })
+      );
+  }
+
+  /*
+   * Metodo que llama al sendEmailAccount de la API envia por los datos por parametros, los parametros se pasan por URL
+   * para recuperar la cuenta. Enviando un correo y con el link recuperaras la cuenta.
+   */
+  sendEmailAccount(email) {
+    return this.http
+      .get(API_URL + "user/sendEmailAccount", {
+        params: {
+          email: email
+        },
+      })
+      .pipe(
+        map((data: any) => {
+          return data;
+        })
+      );
+  }
+
   /*
    * Metodo que hace una peticion para hacer el login, el cual se le pasa el correo y la contraseña
    * DATO: Me gustaria saber como realmente funcionan los headers y cual es su finalidad.
@@ -63,7 +134,6 @@ export class ModelService {
       .pipe(
         map((data: any) => {
           if (data.token) {
-            console.log(data.email);
             this.username = data.username;
             this.token = data.token;
             localStorage.setItem("username", data.username);
