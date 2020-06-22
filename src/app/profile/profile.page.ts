@@ -66,6 +66,7 @@ export class ProfilePage implements OnInit {
         this.modelService
         .updateUser(this.oldUsername, this.username, this.email, undefined)
         .subscribe((data) => {
+          console.log(this.username)
           localStorage.setItem('username', this.username);
           this.username = data.username;
           this.email = data.email;
@@ -86,6 +87,7 @@ export class ProfilePage implements OnInit {
             this.password
           )
           .subscribe((data) => {
+            localStorage.setItem('username', this.username);
             this.username = data.username;
             this.email = data.email;
             this.toast.presentToast("Usuario modificado correctamente");

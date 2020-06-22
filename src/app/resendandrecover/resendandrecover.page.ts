@@ -59,6 +59,7 @@ export class ResendandrecoverPage implements OnInit {
             this.modelService.sendEmail(this.email).subscribe((data) => {
               this.loadingController.dismiss();
               this.toast.presentToast(data.mensaje);
+              this.navController.navigateRoot("/login");
             });
           } else {
             this.toast.presentToast(data.mensaje);
@@ -83,6 +84,7 @@ export class ResendandrecoverPage implements OnInit {
               .subscribe((data) => {
                 this.loadingController.dismiss();
                 this.toast.presentToast(data.mensaje);
+                this.navController.navigateRoot("/login");
               });
           } else {
             this.toast.presentToast(data.mensaje);
@@ -105,6 +107,7 @@ export class ResendandrecoverPage implements OnInit {
             this.modelService.sendEmailAccount(this.email).subscribe((data) => {
               this.loadingController.dismiss();
               this.toast.presentToast(data.mensaje);
+              this.navController.navigateRoot("/login");
             });
           } else {
             this.loadingController.dismiss();

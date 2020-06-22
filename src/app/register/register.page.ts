@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ModelService } from "../services/model.service";
-import { NavController, Platform, LoadingController } from "@ionic/angular";
+import { NavController, AlertController, LoadingController } from "@ionic/angular";
 import { NgForm, EmailValidator, FormControl } from "@angular/forms";
 import { ToastPage } from "../toast/toast.page";
 
@@ -17,9 +17,10 @@ export class RegisterPage implements OnInit {
 
   constructor(
     private modelService: ModelService,
-    private navCotroller: NavController,
+    private navController: NavController,
     private toast: ToastPage,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private alertController: AlertController
   ) {
     /*
      * Detecta los eventos de cuando se abre el teclado en el dispostivo
@@ -68,8 +69,8 @@ export class RegisterPage implements OnInit {
               (data) => {
                 if (data.mensaje == "Usuario creado correctamente") {
                   this.toast.presentToast(data.mensaje);
-                  this.navCotroller.navigateRoot("/login");
                   this.loadingController.dismiss();
+                  this.presentAlert("Información", "Se a enviado un email de confirmación a tu correo electrónico");
                 } else {
                   this.toast.presentToast(
                     "El nombre de usuario o el correo electronico ya existe"
@@ -100,5 +101,24 @@ export class RegisterPage implements OnInit {
       duration: 5000,
     });
     await loading.present();
+  }
+
+  async presentAlert(title, message) {
+    const alert = await this.alertController.create({
+      header: title,
+      message: message,
+      cssClass: "alertIntro",
+      buttons: [
+        {
+          text: "Aceptar",
+          handler: () => {
+              this.navController.navigateRoot('/login');
+          },
+        }
+      ],
+      
+    });
+
+    await alert.present();
   }
 }
